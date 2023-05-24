@@ -16,7 +16,7 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    if os.environ['MYSQL_PASSWORD']:
+    if 'MYSQL_PASSWORD' in os.environ:
         app.config['MYSQL_PASSWORD'] = os.environ['MYSQL_PASSWORD']
 
     # ensure the instance folder exists
