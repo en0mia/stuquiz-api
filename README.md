@@ -2,14 +2,14 @@
 
 [Full report](https://htmlpreview.github.io/?https://github.com/en0mia/stuquiz-api/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
-| Name                         |    Stmts |     Miss |   Cover |   Missing |
-|----------------------------- | -------: | -------: | ------: | --------: |
-| flaskr/\_\_init\_\_.py       |       18 |        3 |     83% | 20, 25-26 |
-| flaskr/db.py                 |       25 |       10 |     60% |11-18, 25, 29-32, 39-40 |
-| tests/\_\_init\_\_.py        |        0 |        0 |    100% |           |
-| tests/routes/\_\_init\_\_.py |        0 |        0 |    100% |           |
-| tests/routes/test\_hello.py  |       10 |        0 |    100% |           |
-|                    **TOTAL** |   **53** |   **13** | **75%** |           |
+| Name                             |    Stmts |     Miss |   Cover |   Missing |
+|--------------------------------- | -------: | -------: | ------: | --------: |
+| app/\_\_init\_\_.py              |        0 |        0 |    100% |           |
+| app/stuquiz/\_\_init\_\_.py      |       18 |        4 |     78% |17, 20, 25-26 |
+| app/tests/\_\_init\_\_.py        |        0 |        0 |    100% |           |
+| app/tests/routes/\_\_init\_\_.py |        0 |        0 |    100% |           |
+| app/tests/routes/test\_hello.py  |       10 |        0 |    100% |           |
+|                        **TOTAL** |   **28** |    **4** | **86%** |           |
 
 
 ## Setup coverage badge
