@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mariadb
+    command: '--default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql'
+    restart: always
+    healthcheck:
+      test: [ 'CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="$MYSQL_PASSWORD" --silent' ]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db/init.sql:/data/application/init.sql
+    expose:
+      - 3306
+      - 33060
+    ports:
+      - 3306:3306
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MYSQL_PASSWORD}
+  backend:
+    build:
+      context: app
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+volumes:
+  db-data:
