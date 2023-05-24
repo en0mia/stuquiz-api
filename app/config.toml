@@ -1,0 +1,10 @@
+title = "StuQuiz configurations."
+
+# Flask internal
+SECRET_KEY = "dev"
+
+# Database
+MYSQL_USER = "root"
+MYSQL_PASSWORD = "SuperSecretPassword"
+MYSQL_DATABASE = 'stuquiz'
+MYSQL_HOST = "db"
