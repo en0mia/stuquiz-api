@@ -70,10 +70,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest coverage
           if [ -f app/requirements.txt ]; then pip install -r app/requirements.txt; fi
-      - name: Install tox and any other packages
-        run: pip install tox
-      - name: Run tox
-        run: tox -e py
+      - name: Tests and coverage report 
+        run: |
+          coverage run -m pytest --junitxml="tests-report.xml"
+          coverage xml
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
