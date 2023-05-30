@@ -18,3 +18,4 @@ class Course(Entity):
     description: str
     professor: str
     categories: list[Category]
+    code: str
