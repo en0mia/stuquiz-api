@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS course (
   name TEXT NOT NULL,
   description TEXT NOT NULL,
   professor TEXT NOT NULL,
+  code TEXT NOT NULL,
   CONSTRAINT `fk_course_university`
       FOREIGN KEY (university_id) REFERENCES university(uuid)
           ON DELETE CASCADE
