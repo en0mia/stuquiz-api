@@ -1,24 +1,84 @@
-from abc import ABC, abstractmethod
-from app.stuquiz.entities.entity import Entity
-from app.stuquiz.db import get_db
+# @author Lorenzo Varese
+# @created 2023-06-30
+
+from typing import Optional, List
+from mysql.connector import DatabaseError
+from mysql.connector.cursor import MySQLCursor
+from mysql.connector.types import RowType
+
+from app.stuquiz.utils.database_provider import DatabaseProvider
 
 
-class Repository(ABC):
-    def __init__(self):
-        self.db = get_db()
+class AbstractRepository(object):
+    """This is the base repository class.
+    All the repositories inherit the methods from this class.
+    """
+    def __init__(self, db_provider: Optional[DatabaseProvider] = None):
+        db_provider = db_provider or DatabaseProvider()
+        self.db = db_provider.get_db()
 
-    @abstractmethod
-    def insert(self, entity: Entity) -> bool:
-        pass
+    def execute(self, query, args, cursor: Optional[MySQLCursor] = None):
+        """Execute the given query.
+        :param query: the query to execute.
+        :param args: the args to substitute to the query. Note that the substitution is handled by the
+            connector, so it is injection-safe.
+        :param cursor: the cursor to use | None
+        :return: True | False in case of database error.
+            If the latter is the case, this method automatically performs a rollback of the last executed query.
+        """
+        cursor = cursor or self.db.cursor(buffered=True)
+        try:
+            cursor.execute(query, args)
+        except DatabaseError:
+            self.db.rollback()
+            return False
+        return True
 
-    @abstractmethod
-    def delete(self, entity: Entity) -> bool:
-        pass
+    def select(self, query, args) -> Optional[List[RowType]]:
+        """Perform a SELECT query.
+        :param query: the query to perform
+        :param args: the args to substitute to the query. Note that the substitution is handled by the
+            connector, so it is injection-safe.
+        :return: the result of the query.
+        """
+        cursor = self.db.cursor(buffered=True)
+        if not self.execute(query, args, cursor):
+            return None
 
-    @abstractmethod
-    def update(self, entity: Entity) -> bool:
-        pass
+        return cursor.fetchall()
 
-    @abstractmethod
-    def select_by_id(self, id: int) -> Entity:
-        pass
+    def insert(self, query, args) -> bool:
+        """Perform a INSERT query.
+        :param query: the query to perform
+        :param args: the args to substitute to the query. Note that the substitution is handled by the
+            connector, so it is injection-safe.
+        :return: True | False in case of database error.
+        """
+        if not self.execute(query, args):
+            return False
+        self.db.commit()
+        return True
+
+    def update(self, query, args) -> bool:
+        """Perform a UPDATE query.
+        :param query: the query to perform
+        :param args: the args to substitute to the query. Note that the substitution is handled by the
+            connector, so it is injection-safe.
+        :return: True | False in case of database error.
+        """
+        if not self.execute(query, args):
+            return False
+        self.db.commit()
+        return True
+
+    def delete(self, query, args):
+        """Perform a DELETE query.
+        :param query: the query to perform
+        :param args: the args to substitute to the query. Note that the substitution is handled by the
+            connector, so it is injection-safe.
+        :return: True | False in case of database error.
+        """
+        if not self.execute(query, args):
+            return False
+        self.db.commit()
+        return True

@@ -1,71 +1,24 @@
-from app.stuquiz.repositories.abstract_repository import Repository
+# @author Lorenzo Varese
+# @created 2023-06-30
+
+from app.stuquiz.repositories.abstract_repository import AbstractRepository
 from app.stuquiz.entities.category import Category
 
 
-class CategoryRepository(Repository):
+class CategoryRepository(AbstractRepository):
 
-    def insert(self, category: Category) -> bool:
-        try:
-            query = "INSERT INTO category (name) VALUES (%s)"
-            values = (category.name)
+    def create_category(self, category: Category) -> bool:
+        query = "INSERT INTO category (name) VALUES (%s)"
+        return self.insert(query, category.name)
 
-            cursor = self.db.cursor()
-            cursor.execute(query, values)
-            self.db.commit()
+    def delete_category(self, category: Category) -> bool:
+        query = "DELETE FROM category WHERE id = %s"
+        return self.delete(query, category.id)
 
-        except Exception as e:
-            print("Error inserting category :", e)
-            self.db.rollback()
-            return False
+    def update_category(self, category: Category) -> bool:
+        query = "UPDATE category SET name = %s WHERE id = %s"
+        return self.update(query, category.name, category.id)
 
-        return True
-
-    def delete(self, category: Category) -> bool:
-        try:
-            query = "DELETE FROM category WHERE id = %s"
-            values = (category.id,)
-
-            cursor = self.db.cursor()
-            cursor.execute(query, values)
-            self.db.commit()
-
-        except Exception as e:
-            print("Error deleting category:", e)
-            self.db.rollback()
-            return False
-
-        return True
-
-    def update(self, category: Category) -> bool:
-        try:
-            query = "UPDATE category SET name = %s WHERE id = %s"
-            values = (category.name, category.id)
-
-            cursor = self.db.cursor()
-            cursor.execute(query, values)
-            self.db.commit()
-
-        except Exception as e:
-            print("Error updating category:", e)
-            self.db.rollback()
-            return False
-
-        return True
-
-    def select_by_id(self, category_id: int) -> Category:
-        try:
-            query = "SELECT * FROM category WHERE id = %s"
-            values = (category_id,)
-
-            cursor = self.db.cursor()
-            cursor.execute(query, values)
-            category_data = cursor.fetchone()
-
-            if category_data:
-                category = Category(*category_data)
-                return category
-            else:
-                return None
-        except Exception as e:
-            print("Error selecting category by ID:", e)
-            return None
+    def select_category_by_id(self, category_id: int) -> Category:
+        query = "SELECT * FROM category WHERE id = %s"
+        return self.update(query, category_id)
