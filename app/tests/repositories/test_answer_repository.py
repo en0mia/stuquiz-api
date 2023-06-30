@@ -7,10 +7,12 @@ from unittest.mock import MagicMock
 
 from app.stuquiz.entities.answer import Answer
 from app.stuquiz.repositories.answer_repository import AnswerRepository
+from app.tests.repositories.test_constants import TEST_ANSWER
 
 
-class TestLotteryRepository(unittest.TestCase):
-    TEST_ID = str(uuid.uuid4())
+class TestAnswerRepository(unittest.TestCase):
+    TEST_ID = TEST_ANSWER.id
+    test_answer = TEST_ANSWER
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -41,9 +43,9 @@ class TestLotteryRepository(unittest.TestCase):
         result = self.repository.create_answer(answer)
 
         # Assert that the insert method was called with the correct query and arguments
-        expected_query = 'INSERT INTO answer(id, question_id, answer, creation_date, correct, points) ' \
-                         'VALUES (%s, %s, %s, %s, %s, %s);'
-        expected_args = (answer.id, answer.question_id, answer.answer, answer.creation_date, answer.correct,
+        expected_query = 'INSERT INTO answer(question_id, answer, creation_date, correct, points) ' \
+                         'VALUES (%s, %s, %s, %s, %s);'
+        expected_args = (answer.question_id, answer.answer, answer.creation_date, answer.correct,
                          answer.points)
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
 
@@ -101,19 +103,26 @@ class TestLotteryRepository(unittest.TestCase):
         # Assert that the result is True, indicating successful update
         self.assertTrue(result)
 
-    def test_select_answer_by_id(self):
-        answer_id = 123
+    def test_select_answer_by_id_when_answer_exists(self):
+        # Arrange
+        expected_result = Answer(self.test_answer.id, self.test_answer.question_id,
+                                 self.test_answer.answer, self.test_answer.creation_date,
+                                 self.test_answer.correct, self.test_answer.points)
 
-        # Call the select_answer_by_id method
-        result = self.repository.select_answer_by_id(answer_id)
+        self.cursor.fetchall.return_value = expected_result
 
-        # Assert that the select method was called with the correct query and argument
-        expected_query = 'SELECT * FROM answer WHERE id = %s'
-        expected_arg = answer_id
-        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
+        # Act
+        result = self.repository.select_answer_by_id(self.test_answer.id)
 
-        # Assert that the fetchone method was called to retrieve the selected answer
-        self.cursor.fetchone.assert_called_once()
+        # Assert
+        self.assertEqual(expected_result, result)
 
-        # Assert that the result is the expected Answer instance or None if no answer was found
-        self.assertEqual(result, self.cursor.fetchone.return_value)
+    def test_select_answer_by_id_when_answer_doesnt_exist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = None
+
+        # Act
+        result = self.repository.select_answer_by_id(self.TEST_ID)
+
+        # Assert
+        self.assertIsNone(result)

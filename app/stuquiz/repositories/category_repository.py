@@ -17,8 +17,8 @@ class CategoryRepository(AbstractRepository):
 
     def update_category(self, category: Category) -> bool:
         query = "UPDATE category SET name = %s WHERE id = %s"
-        return self.update(query, category.name, category.id)
+        return self.update(query, (category.name, category.id))
 
     def select_category_by_id(self, category_id: int) -> Category:
         query = "SELECT * FROM category WHERE id = %s"
-        return self.update(query, category_id)
+        return self.select(query, category_id)

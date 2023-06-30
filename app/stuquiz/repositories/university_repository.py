@@ -17,8 +17,8 @@ class UniversityRepository(AbstractRepository):
 
     def update_university(self, university: University) -> bool:
         query = "UPDATE university SET name = %s WHERE id = %s"
-        return self.update(query, university.name)
+        return self.update(query, (university.name, university.id))
 
-    def select_university_by_id(self, university_id: int) -> University:
+    def select_university_by_id(self, university_id: str) -> University:
         query = "SELECT * FROM university WHERE id = %s"
         return self.select(query, university_id)

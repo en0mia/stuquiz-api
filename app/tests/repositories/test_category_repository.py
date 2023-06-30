@@ -7,10 +7,12 @@ from unittest.mock import MagicMock
 
 from app.stuquiz.entities.category import Category
 from app.stuquiz.repositories.category_repository import CategoryRepository
+from app.tests.repositories.test_constants import TEST_CATEGORY
 
 
 class TestCategoryRepository(unittest.TestCase):
-    TEST_ID = str(uuid.uuid4())
+    TEST_ID = TEST_CATEGORY.id
+    test_category = TEST_CATEGORY
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -87,19 +89,24 @@ class TestCategoryRepository(unittest.TestCase):
         # Assert that the result is True, indicating successful update
         self.assertTrue(result)
 
-    def test_select_category_by_id(self):
-        category_id = 123
+    def test_select_category_by_id_when_category_exists(self):
+        # Arrange
+        expected_result = Category(self.test_category.id, self.test_category.name)
 
-        # Call the select_category_by_id method
-        result = self.repository.select_category_by_id(category_id)
+        self.cursor.fetchall.return_value = expected_result
 
-        # Assert that the select method was called with the correct query and argument
-        expected_query = 'SELECT * FROM category WHERE id = %s'
-        expected_arg = category_id
-        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
+        # Act
+        result = self.repository.select_category_by_id(self.test_category.id)
 
-        # Assert that the fetchone method was called to retrieve the selected category
-        self.cursor.fetchone.assert_called_once()
+        # Assert
+        self.assertEqual(expected_result, result)
 
-        # Assert that the result is the expected Category instance or None if no category was found
-        self.assertEqual(result, self.cursor.fetchone.return_value)
+    def test_select_category_by_id_when_category_doesnt_exist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = None
+
+        # Act
+        result = self.repository.select_category_by_id(self.TEST_ID)
+
+        # Assert
+        self.assertIsNone(result)

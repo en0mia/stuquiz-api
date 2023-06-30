@@ -2,16 +2,17 @@
 # @created 2023-06-30
 
 import unittest
-import uuid
 from unittest.mock import MagicMock
 
 from app.stuquiz.entities.category import Category
 from app.stuquiz.entities.course import Course
 from app.stuquiz.repositories.course_repository import CourseRepository
+from app.tests.repositories.test_constants import TEST_COURSE
 
 
 class TestCourseRepository(unittest.TestCase):
-    TEST_ID = str(uuid.uuid4())
+    TEST_ID = TEST_COURSE.id
+    test_course = TEST_COURSE
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -110,19 +111,27 @@ class TestCourseRepository(unittest.TestCase):
         # Assert that the result is True, indicating successful update
         self.assertTrue(result)
 
-    def test_select_course_by_id(self):
-        course_id = 123
+    def test_select_course_by_id_when_course_exists(self):
+        # Arrange
+        expected_result = Course(self.test_course.id, self.test_course.university_id,
+                                 self.test_course.name, self.test_course.description,
+                                 self.test_course.professor, self.test_course.categories,
+                                 self.test_course.code)
 
-        # Call the select_course_by_id method
-        result = self.repository.select_course_by_id(course_id)
+        self.cursor.fetchall.return_value = expected_result
 
-        # Assert that the select method was called with the correct query and argument
-        expected_query = 'SELECT * FROM course WHERE id = %s'
-        expected_arg = course_id
-        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
+        # Act
+        result = self.repository.select_course_by_id(self.test_course.id)
 
-        # Assert that the fetchone method was called to retrieve the selected course
-        self.cursor.fetchone.assert_called_once()
+        # Assert
+        self.assertEqual(expected_result, result)
 
-        # Assert that the result is the expected Course instance or None if no course was found
-        self.assertEqual(result, self.cursor.fetchone.return_value)
+    def test_select_course_by_id_when_course_doesnt_exist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = None
+
+        # Act
+        result = self.repository.select_course_by_id(self.TEST_ID)
+
+        # Assert
+        self.assertIsNone(result)

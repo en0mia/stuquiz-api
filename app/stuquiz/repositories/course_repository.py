@@ -9,8 +9,8 @@ class CourseRepository(AbstractRepository):
 
     def create_course(self, course: Course) -> bool:
         query = "INSERT INTO course (name, description, professor, code, university_id) VALUES (%s, %s, %s, %s, %s)"
-        return self.insert(query, course.name, course.description, course.professor, course.code,
-                           course.university_id)
+        return self.insert(query, (course.name, course.description, course.professor, course.code,
+                           course.university_id))
 
     def delete_course(self, course: Course) -> bool:
         query = "DELETE FROM course WHERE course_id = %s"
@@ -19,8 +19,8 @@ class CourseRepository(AbstractRepository):
     def update_course(self, course: Course) -> bool:
         query = "UPDATE course SET name = %s, description = %s, professor = %s, " \
                     "code = %s, university_id = %s WHERE id = %s"
-        return self.update(query, course.name, course.description, course.professor,
-                           course.code, course.university_id, course.id)
+        return self.update(query, (course.name, course.description, course.professor,
+                           course.code, course.university_id, course.id))
 
     def select_course_by_id(self, course_id: int) -> Course:
         query = "SELECT * FROM course WHERE id = %s"

@@ -2,16 +2,17 @@
 # @created 2023-06-30
 
 import unittest
-import uuid
 from datetime import datetime
 from unittest.mock import MagicMock
 
 from app.stuquiz.entities.question import Question
 from app.stuquiz.repositories.question_repository import QuestionRepository
+from app.tests.repositories.test_constants import TEST_QUESTION
 
 
 class TestQuestionRepository(unittest.TestCase):
-    TEST_ID = str(uuid.uuid4())
+    TEST_ID = TEST_QUESTION.id
+    test_question = TEST_QUESTION
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -97,19 +98,26 @@ class TestQuestionRepository(unittest.TestCase):
         # Assert that the result is True, indicating successful update
         self.assertTrue(result)
 
-    def test_select_question_by_id(self):
-        question_id = 123
+    def test_select_question_by_id_when_question_exists(self):
+        # Arrange
+        expected_result = Question(self.test_question.id, self.test_question.course_id,
+                                   self.test_question.question, self.test_question.creation_date,
+                                   self.test_question.rating)
 
-        # Call the select_question_by_id method
-        result = self.repository.select_question_by_id(question_id)
+        self.cursor.fetchall.return_value = expected_result
 
-        # Assert that the select method was called with the correct query and argument
-        expected_query = 'SELECT * FROM question WHERE id = %s'
-        expected_arg = question_id
-        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
+        # Act
+        result = self.repository.select_question_by_id(self.test_question.id)
 
-        # Assert that the fetchone method was called to retrieve the selected question
-        self.cursor.fetchone.assert_called_once()
+        # Assert
+        self.assertEqual(expected_result, result)
 
-        # Assert that the result is the expected Question instance or None if no question was found
-        self.assertEqual(result, self.cursor.fetchone.return_value)
+    def test_select_question_by_id_when_question_doesnt_exist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = None
+
+        # Act
+        result = self.repository.select_question_by_id(self.TEST_ID)
+
+        # Assert
+        self.assertIsNone(result)
