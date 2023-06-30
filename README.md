@@ -7,12 +7,12 @@
 | app/\_\_init\_\_.py                |        0 |        0 |    100% |           |
 | app/stuquiz/\_\_init\_\_.py        |       18 |        4 |     78% |17, 20, 25-26 |
 | app/stuquiz/entities/entity.py     |        3 |        0 |    100% |           |
-| app/stuquiz/entities/university.py |        7 |        0 |    100% |           |
+| app/stuquiz/entities/university.py |        6 |        0 |    100% |           |
 | app/tests/\_\_init\_\_.py          |        0 |        0 |    100% |           |
 | app/tests/entities/test\_entity.py |       12 |        0 |    100% |           |
 | app/tests/routes/\_\_init\_\_.py   |        0 |        0 |    100% |           |
 | app/tests/routes/test\_hello.py    |       10 |        0 |    100% |           |
-|                          **TOTAL** |   **50** |    **4** | **92%** |           |
+|                          **TOTAL** |   **49** |    **4** | **92%** |           |
 
 
 ## Setup coverage badge
