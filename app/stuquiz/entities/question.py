@@ -11,8 +11,7 @@ class Question(Entity):
     """
     This class represents a Question object.
     """
-    id: int
-    uuid: str
+    id: str
     course_id: str
     question: str
     creation_date: datetime
