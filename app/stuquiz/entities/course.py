@@ -11,8 +11,7 @@ class Course(Entity):
     """
     This class represents a Course object.
     """
-    id: int
-    uuid: str
+    id: str
     university_id: str
     name: str
     description: str

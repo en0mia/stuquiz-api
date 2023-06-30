@@ -9,6 +9,5 @@ class Category(Entity):
     """
     This class represents a Category object.
     """
-    id: int
-    uuid: str
+    id: str
     name: str

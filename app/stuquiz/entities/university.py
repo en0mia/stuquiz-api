@@ -10,6 +10,5 @@ class University(Entity):
     """
     This class represents a University object.
     """
-    id: int
-    uuid: str
+    id: str
     name: str

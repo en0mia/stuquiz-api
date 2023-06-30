@@ -11,8 +11,7 @@ class Answer(Entity):
     """
     This class represents an Answer object.
     """
-    id: int
-    uuid: str
+    id: str
     question_id: str
     answer: str
     creation_date: datetime
