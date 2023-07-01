@@ -118,7 +118,10 @@ class TestCourseRepository(unittest.TestCase):
                                  self.test_course.professor, self.test_course.categories,
                                  self.test_course.code)
 
-        self.cursor.fetchall.return_value = expected_result
+        self.cursor.fetchall.return_value = [(self.test_course.id, self.test_course.university_id,
+                                              self.test_course.name, self.test_course.description,
+                                              self.test_course.professor, self.test_course.categories,
+                                              self.test_course.code)]
 
         # Act
         result = self.repository.select_course_by_id(self.test_course.id)

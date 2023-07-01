@@ -21,4 +21,5 @@ class CategoryRepository(AbstractRepository):
 
     def select_category_by_id(self, category_id: int) -> Category:
         query = "SELECT * FROM category WHERE id = %s"
-        return self.select(query, category_id)
+        result = self.select(query, category_id)
+        return Category(*result[0]) if result and len(result) > 0 else None

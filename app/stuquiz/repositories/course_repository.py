@@ -24,4 +24,5 @@ class CourseRepository(AbstractRepository):
 
     def select_course_by_id(self, course_id: int) -> Course:
         query = "SELECT * FROM course WHERE id = %s"
-        return self.select(query, course_id)
+        result = self.select(query, course_id)
+        return Course(*result[0]) if result and len(result) > 0 else None

@@ -109,7 +109,9 @@ class TestAnswerRepository(unittest.TestCase):
                                  self.test_answer.answer, self.test_answer.creation_date,
                                  self.test_answer.correct, self.test_answer.points)
 
-        self.cursor.fetchall.return_value = expected_result
+        self.cursor.fetchall.return_value = [(self.test_answer.id, self.test_answer.question_id,
+                                              self.test_answer.answer, self.test_answer.creation_date,
+                                              self.test_answer.correct, self.test_answer.points)]
 
         # Act
         result = self.repository.select_answer_by_id(self.test_answer.id)

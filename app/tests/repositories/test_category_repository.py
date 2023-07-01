@@ -93,7 +93,7 @@ class TestCategoryRepository(unittest.TestCase):
         # Arrange
         expected_result = Category(self.test_category.id, self.test_category.name)
 
-        self.cursor.fetchall.return_value = expected_result
+        self.cursor.fetchall.return_value = [(self.test_category.id, self.test_category.name)]
 
         # Act
         result = self.repository.select_category_by_id(self.test_category.id)

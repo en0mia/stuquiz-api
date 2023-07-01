@@ -21,4 +21,5 @@ class UniversityRepository(AbstractRepository):
 
     def select_university_by_id(self, university_id: str) -> University:
         query = "SELECT * FROM university WHERE id = %s"
-        return self.select(query, university_id)
+        result = self.select(query, university_id)
+        return University(*result[0]) if result and len(result) > 0 else None

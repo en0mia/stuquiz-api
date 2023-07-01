@@ -21,4 +21,5 @@ class QuestionRepository(AbstractRepository):
 
     def select_question_by_id(self, question_id: int) -> Question:
         query = "SELECT * FROM question WHERE id = %s"
-        return self.select(query, question_id)
+        result = self.select(query, question_id)
+        return Question(*result[0]) if result and len(result) > 0 else None

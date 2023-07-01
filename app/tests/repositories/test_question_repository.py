@@ -104,7 +104,9 @@ class TestQuestionRepository(unittest.TestCase):
                                    self.test_question.question, self.test_question.creation_date,
                                    self.test_question.rating)
 
-        self.cursor.fetchall.return_value = expected_result
+        self.cursor.fetchall.return_value = [(self.test_question.id, self.test_question.course_id,
+                                              self.test_question.question, self.test_question.creation_date,
+                                              self.test_question.rating)]
 
         # Act
         result = self.repository.select_question_by_id(self.test_question.id)

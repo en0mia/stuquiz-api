@@ -93,7 +93,7 @@ class TestUniversityRepository(unittest.TestCase):
         # Arrange
         expected_result = University(self.test_university.id, self.test_university.name)
 
-        self.cursor.fetchall.return_value = University(self.test_university.id, self.test_university.name)
+        self.cursor.fetchall.return_value = [(self.test_university.id, self.test_university.name)]
 
         # Act
         result = self.repository.select_university_by_id(self.test_university.id)
