@@ -7,12 +7,10 @@ from unittest.mock import MagicMock
 
 from app.stuquiz.entities.category import Category
 from app.stuquiz.repositories.category_repository import CategoryRepository
-from app.tests.repositories.test_constants import TEST_CATEGORY
 
 
 class TestCategoryRepository(unittest.TestCase):
-    TEST_ID = TEST_CATEGORY.id
-    test_category = TEST_CATEGORY
+    test_category = None
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -23,76 +21,66 @@ class TestCategoryRepository(unittest.TestCase):
         self.db_provider.get_db.return_value = self.db
         self.repository = CategoryRepository(self.db_provider)
 
+        self.test_category = Category(
+            id=str(uuid.uuid4()),
+            name="Test category"
+        )
+
     def tearDown(self) -> None:
         self.cursor = None
         self.db = None
         self.db_provider = None
         self.repository = None
+        self.test_category = None
 
     def test_create_category(self):
-        category = Category(
-            id=self.TEST_ID,
-            name='Sample Category'
-        )
-
-        # Call the create_category method
-        result = self.repository.create_category(category)
-
-        # Assert that the insert method was called with the correct query and argument
+        # Arrange
         expected_query = 'INSERT INTO category (name) VALUES (%s)'
-        expected_arg = category.name
+        expected_arg = self.test_category.name
+
+        # Act
+        result = self.repository.create_category(self.test_category)
+
+        # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
 
-        # Assert that the commit method was called on the database connection
         self.db.commit.assert_called_once()
 
-        # Assert that the result is True, indicating successful creation
         self.assertTrue(result)
 
     def test_delete_category(self):
-        category = Category(
-            id=self.TEST_ID,
-            name='Sample Category'
-        )
-
-        # Call the delete_category method
-        result = self.repository.delete_category(category)
-
-        # Assert that the delete method was called with the correct query and argument
+        # Arrange
         expected_query = 'DELETE FROM category WHERE id = %s'
-        expected_arg = category.id
+        expected_arg = self.test_category.id
+
+        # Act
+        result = self.repository.delete_category(self.test_category)
+
+        # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
 
-        # Assert that the commit method was called on the database connection
         self.db.commit.assert_called_once()
 
-        # Assert that the result is True, indicating successful deletion
         self.assertTrue(result)
 
     def test_update_category(self):
-        category = Category(
-            id=self.TEST_ID,
-            name='Sample Category'
-        )
-
-        # Call the update_category method
-        result = self.repository.update_category(category)
-
-        # Assert that the update method was called with the correct query and arguments
+        # Arrange
         expected_query = 'UPDATE category SET name = %s WHERE id = %s'
-        expected_args = (category.name, category.id)
+        expected_args = (self.test_category.name, self.test_category.id)
+
+        # Act
+        result = self.repository.update_category(self.test_category)
+
+        # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
 
-        # Assert that the commit method was called on the database connection
         self.db.commit.assert_called_once()
 
-        # Assert that the result is True, indicating successful update
         self.assertTrue(result)
 
     def test_select_category_by_id_when_category_exists(self):
         # Arrange
         expected_result = Category(self.test_category.id, self.test_category.name)
-
         self.cursor.fetchall.return_value = [(self.test_category.id, self.test_category.name)]
 
         # Act
@@ -106,7 +94,7 @@ class TestCategoryRepository(unittest.TestCase):
         self.cursor.fetchall.return_value = None
 
         # Act
-        result = self.repository.select_category_by_id(self.TEST_ID)
+        result = self.repository.select_category_by_id("id-test")
 
         # Assert
         self.assertIsNone(result)

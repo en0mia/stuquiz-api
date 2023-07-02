@@ -2,17 +2,17 @@
 # @created 2023-06-30
 
 import unittest
+import uuid
 from unittest.mock import MagicMock
 
 from app.stuquiz.entities.category import Category
 from app.stuquiz.entities.course import Course
 from app.stuquiz.repositories.course_repository import CourseRepository
-from app.tests.repositories.test_constants import TEST_COURSE
 
 
 class TestCourseRepository(unittest.TestCase):
-    TEST_ID = TEST_COURSE.id
-    test_course = TEST_COURSE
+    test_category = None
+    test_course = None
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -23,92 +23,76 @@ class TestCourseRepository(unittest.TestCase):
         self.db_provider.get_db.return_value = self.db
         self.repository = CourseRepository(self.db_provider)
 
+        self.test_category = Category(
+            id=str(uuid.uuid4()),
+            name="Test category"
+        )
+
+        self.test_course = Course(
+            id=str(uuid.uuid4()),
+            university_id=str(uuid.uuid4()),
+            name="Test course",
+            description="Test course description",
+            professor="Test professor",
+            categories=[self.test_category],
+            code="TEST123"
+        )
+
     def tearDown(self) -> None:
         self.cursor = None
         self.db = None
         self.db_provider = None
         self.repository = None
+        self.test_category = None
+        self.test_course = None
 
     def test_create_course(self):
-        category = Category(
-            id='category_id_1',
-            name='Sample Category'
-        )
-        course = Course(
-            id=self.TEST_ID,
-            university_id='university_id_1',
-            name='Sample Course',
-            description='Sample Course Description',
-            professor='Sample Professor',
-            categories=[category],
-            code='COURSE001'
-        )
-
-        # Call the create_course method
-        result = self.repository.create_course(course)
-
-        # Assert that the insert method was called with the correct query and arguments
+        # Arrange
         expected_query = 'INSERT INTO course (name, description, professor, code, university_id) ' \
                          'VALUES (%s, %s, %s, %s, %s)'
-        expected_args = (course.name, course.description, course.professor, course.code, course.university_id)
+        expected_args = (self.test_course.name, self.test_course.description, self.test_course.professor,
+                         self.test_course.code, self.test_course.university_id)
+
+        # Act
+        result = self.repository.create_course(self.test_course)
+
+        # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
 
-        # Assert that the commit method was called on the database connection
         self.db.commit.assert_called_once()
 
-        # Assert that the result is True, indicating successful creation
         self.assertTrue(result)
 
     def test_delete_course(self):
-        course = Course(
-            id=self.TEST_ID,
-            university_id='university_id_1',
-            name='Sample Course',
-            description='Sample Course Description',
-            professor='Sample Professor',
-            categories=[],
-            code='COURSE001'
-        )
-
-        # Call the delete_course method
-        result = self.repository.delete_course(course)
-
-        # Assert that the delete method was called with the correct query and argument
+        # Arrange
         expected_query = 'DELETE FROM course WHERE course_id = %s'
-        expected_arg = course.id
+        expected_arg = self.test_course.id
+
+        # Act
+        result = self.repository.delete_course(self.test_course)
+
+        # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
 
-        # Assert that the commit method was called on the database connection
         self.db.commit.assert_called_once()
 
-        # Assert that the result is True, indicating successful deletion
         self.assertTrue(result)
 
     def test_update_course(self):
-        course = Course(
-            id=self.TEST_ID,
-            university_id='university_id_1',
-            name='Sample Course',
-            description='Sample Course Description',
-            professor='Sample Professor',
-            categories=[],
-            code='COURSE001'
-        )
-
-        # Call the update_course method
-        result = self.repository.update_course(course)
-
-        # Assert that the update method was called with the correct query and arguments
+        # Arrange
         expected_query = 'UPDATE course SET name = %s, description = %s, professor = %s, ' \
                          'code = %s, university_id = %s WHERE id = %s'
-        expected_args = (course.name, course.description, course.professor,
-                         course.code, course.university_id, course.id)
+        expected_args = (self.test_course.name, self.test_course.description, self.test_course.professor,
+                         self.test_course.code, self.test_course.university_id, self.test_course.id)
+
+        # Act
+        result = self.repository.update_course(self.test_course)
+
+        # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
 
-        # Assert that the commit method was called on the database connection
         self.db.commit.assert_called_once()
 
-        # Assert that the result is True, indicating successful update
         self.assertTrue(result)
 
     def test_select_course_by_id_when_course_exists(self):
@@ -134,7 +118,7 @@ class TestCourseRepository(unittest.TestCase):
         self.cursor.fetchall.return_value = None
 
         # Act
-        result = self.repository.select_course_by_id(self.TEST_ID)
+        result = self.repository.select_course_by_id("test-id-00")
 
         # Assert
         self.assertIsNone(result)
