@@ -2,17 +2,37 @@
 
 [Full report](https://htmlpreview.github.io/?https://github.com/en0mia/stuquiz-api/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
-| Name                               |    Stmts |     Miss |   Cover |   Missing |
-|----------------------------------- | -------: | -------: | ------: | --------: |
-| app/\_\_init\_\_.py                |        0 |        0 |    100% |           |
-| app/stuquiz/\_\_init\_\_.py        |       18 |        4 |     78% |17, 20, 25-26 |
-| app/stuquiz/entities/entity.py     |        3 |        0 |    100% |           |
-| app/stuquiz/entities/university.py |        6 |        0 |    100% |           |
-| app/tests/\_\_init\_\_.py          |        0 |        0 |    100% |           |
-| app/tests/entities/test\_entity.py |       12 |        0 |    100% |           |
-| app/tests/routes/\_\_init\_\_.py   |        0 |        0 |    100% |           |
-| app/tests/routes/test\_hello.py    |       10 |        0 |    100% |           |
-|                          **TOTAL** |   **49** |    **4** | **92%** |           |
+| Name                                                   |    Stmts |     Miss |   Cover |   Missing |
+|------------------------------------------------------- | -------: | -------: | ------: | --------: |
+| app/\_\_init\_\_.py                                    |        0 |        0 |    100% |           |
+| app/stuquiz/\_\_init\_\_.py                            |       18 |        4 |     78% |17, 20, 25-26 |
+| app/stuquiz/entities/answer.py                         |       11 |        0 |    100% |           |
+| app/stuquiz/entities/category.py                       |        6 |        0 |    100% |           |
+| app/stuquiz/entities/course.py                         |       12 |        0 |    100% |           |
+| app/stuquiz/entities/entity.py                         |        3 |        0 |    100% |           |
+| app/stuquiz/entities/question.py                       |       10 |        0 |    100% |           |
+| app/stuquiz/entities/university.py                     |        6 |        0 |    100% |           |
+| app/stuquiz/repositories/\_\_init\_\_.py               |        0 |        0 |    100% |           |
+| app/stuquiz/repositories/abstract\_repository.py       |       37 |        7 |     81% |32-34, 46, 58, 70, 82 |
+| app/stuquiz/repositories/answer\_repository.py         |       16 |        0 |    100% |           |
+| app/stuquiz/repositories/category\_repository.py       |       16 |        0 |    100% |           |
+| app/stuquiz/repositories/course\_repository.py         |       16 |        0 |    100% |           |
+| app/stuquiz/repositories/question\_repository.py       |       16 |        0 |    100% |           |
+| app/stuquiz/repositories/university\_repository.py     |       16 |        0 |    100% |           |
+| app/stuquiz/utils/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
+| app/stuquiz/utils/database\_provider.py                |       14 |        7 |     50% |17-25, 30-32 |
+| app/tests/\_\_init\_\_.py                              |        0 |        0 |    100% |           |
+| app/tests/entities/test\_entity.py                     |       12 |        0 |    100% |           |
+| app/tests/repositories/\_\_init\_\_.py                 |        0 |        0 |    100% |           |
+| app/tests/repositories/test\_abstract\_repository.py   |       29 |        0 |    100% |           |
+| app/tests/repositories/test\_answer\_repository.py     |       52 |        0 |    100% |           |
+| app/tests/repositories/test\_category\_repository.py   |       51 |        0 |    100% |           |
+| app/tests/repositories/test\_course\_repository.py     |       55 |        0 |    100% |           |
+| app/tests/repositories/test\_question\_repository.py   |       52 |        0 |    100% |           |
+| app/tests/repositories/test\_university\_repository.py |       51 |        0 |    100% |           |
+| app/tests/routes/\_\_init\_\_.py                       |        0 |        0 |    100% |           |
+| app/tests/routes/test\_hello.py                        |       10 |        0 |    100% |           |
+|                                              **TOTAL** |  **509** |   **18** | **96%** |           |
 
 
 ## Setup coverage badge
