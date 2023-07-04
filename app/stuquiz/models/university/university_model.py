@@ -13,4 +13,5 @@ class UniversityModel(object):
     def get_universities(self) -> list[University]:
         return self.university_repository.select_universities()
 
-
+    def get_university_by_id(self, university_id: str) -> Optional[University]:
+        return self.university_repository.select_university_by_id(university_id)

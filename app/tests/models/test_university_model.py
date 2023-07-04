@@ -24,3 +24,13 @@ class TestUniversityModel(unittest.TestCase):
 
         # Assert
         self.university_repository.select_universities.assert_called_once()
+
+    def testGetUniversityById_callRepository_whenCalled(self):
+        # Arrange
+        self.university_repository.select_university_by_id.return_value = []
+
+        # Act
+        self.model.get_university_by_id('')
+
+        # Assert
+        self.university_repository.select_university_by_id.assert_called_once()

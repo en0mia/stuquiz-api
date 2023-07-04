@@ -1,5 +1,6 @@
 # @author Lorenzo Varese
 # @created 2023-06-30
+from typing import Optional
 
 from app.stuquiz.repositories.abstract_repository import AbstractRepository
 from app.stuquiz.entities.university import University
@@ -19,7 +20,7 @@ class UniversityRepository(AbstractRepository):
         query = "UPDATE university SET name = %s WHERE id = %s"
         return self.update(query, (university.name, university.id))
 
-    def select_university_by_id(self, university_id: str) -> University:
+    def select_university_by_id(self, university_id: str) -> Optional[University]:
         query = "SELECT * FROM university WHERE id = %s"
         result = self.select(query, university_id)
         return University(*result[0]) if result and len(result) > 0 else None

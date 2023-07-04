@@ -10,3 +10,4 @@ def register_routes(app) -> None:
     :return: void
     """
     app.register_blueprint(get_universities_page)
+    app.register_blueprint(get_university_by_id_page)
