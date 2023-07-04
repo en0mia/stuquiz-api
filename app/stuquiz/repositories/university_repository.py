@@ -23,3 +23,16 @@ class UniversityRepository(AbstractRepository):
         query = "SELECT * FROM university WHERE id = %s"
         result = self.select(query, university_id)
         return University(*result[0]) if result and len(result) > 0 else None
+
+    def select_universities(self) -> list[University]:
+        query = 'SELECT id, name FROM university;'
+        records = self.select(query, ())
+        result = []
+
+        if not records:
+            return []
+
+        for record in records:
+            result.append(University(*record))
+
+        return result

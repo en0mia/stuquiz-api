@@ -99,3 +99,42 @@ class TestUniversityRepository(unittest.TestCase):
 
         # Assert
         self.assertIsNone(result)
+
+    def test_selectUniversities_returnUniversities_whenUniversitiesExist(self):
+        # Arrange
+        first_university = (self.test_university.id, self.test_university.name)
+        second_university = (uuid.uuid4(), self.test_university.name + "second")
+        return_value = [first_university, second_university]
+        self.cursor.fetchall.return_value = return_value
+        expected_result = [University(*first_university), University(*second_university)]
+
+        # Act
+        result = self.repository.select_universities()
+
+        # Assert
+        self.assertEqual(expected_result, result)
+        self.cursor.execute.assert_called_once_with('SELECT id, name FROM university;', ())
+
+    def test_selectUniversities_returnEmptyList_whenUniversitiesDontExist(self):
+        # Arrange
+        return_value = []
+        self.cursor.fetchall.return_value = return_value
+
+        # Act
+        result = self.repository.select_universities()
+
+        # Assert
+        self.assertEqual([], result)
+        self.cursor.execute.assert_called_once_with('SELECT id, name FROM university;', ())
+
+    def test_selectUniversities_returnEmptyList_whenDbError(self):
+        # Arrange
+        return_value = None
+        self.cursor.fetchall.return_value = return_value
+
+        # Act
+        result = self.repository.select_universities()
+
+        # Assert
+        self.assertEqual([], result)
+        self.cursor.execute.assert_called_once_with('SELECT id, name FROM university;', ())
