@@ -18,6 +18,8 @@ def create_app(test_config=None):
 
     if 'MYSQL_PASSWORD' in os.environ:
         app.config['MYSQL_PASSWORD'] = os.environ['MYSQL_PASSWORD']
+    if 'SECRET_KEY' in os.environ:
+        app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
     # ensure the instance folder exists
     try:
