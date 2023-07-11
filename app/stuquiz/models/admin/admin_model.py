@@ -38,6 +38,9 @@ class AdminModel(object):
 
     @staticmethod
     def logout_admin() -> None:
+        """Remove the admin_id from the session cookie.
+        :return: None
+        """
         del session['admin_id']
 
     def get_admin_by_id(self, admin_id: str) -> Optional[Admin]:
