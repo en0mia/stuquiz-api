@@ -5,7 +5,7 @@
 | Name                                                   |    Stmts |     Miss |   Cover |   Missing |
 |------------------------------------------------------- | -------: | -------: | ------: | --------: |
 | app/\_\_init\_\_.py                                    |        0 |        0 |    100% |           |
-| app/stuquiz/\_\_init\_\_.py                            |       22 |        4 |     82% |20, 23, 28-29 |
+| app/stuquiz/\_\_init\_\_.py                            |       19 |       14 |     26% |     13-36 |
 | app/stuquiz/entities/answer.py                         |       11 |        0 |    100% |           |
 | app/stuquiz/entities/category.py                       |        6 |        0 |    100% |           |
 | app/stuquiz/entities/course.py                         |       12 |        0 |    100% |           |
@@ -20,7 +20,7 @@
 | app/stuquiz/repositories/question\_repository.py       |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/university\_repository.py     |       16 |        0 |    100% |           |
 | app/stuquiz/utils/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
-| app/stuquiz/utils/database\_provider.py                |       14 |        5 |     64% | 17-25, 32 |
+| app/stuquiz/utils/database\_provider.py                |       14 |        7 |     50% |17-25, 30-32 |
 | app/tests/\_\_init\_\_.py                              |        0 |        0 |    100% |           |
 | app/tests/entities/test\_entity.py                     |       12 |        0 |    100% |           |
 | app/tests/repositories/\_\_init\_\_.py                 |        0 |        0 |    100% |           |
@@ -30,9 +30,7 @@
 | app/tests/repositories/test\_course\_repository.py     |       55 |        0 |    100% |           |
 | app/tests/repositories/test\_question\_repository.py   |       52 |        0 |    100% |           |
 | app/tests/repositories/test\_university\_repository.py |       51 |        0 |    100% |           |
-| app/tests/routes/\_\_init\_\_.py                       |        0 |        0 |    100% |           |
-| app/tests/routes/test\_hello.py                        |       10 |        0 |    100% |           |
-|                                              **TOTAL** |  **513** |   **16** | **97%** |           |
+|                                              **TOTAL** |  **500** |   **28** | **94%** |           |
 
 
 ## Setup coverage badge
