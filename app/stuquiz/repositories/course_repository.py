@@ -14,7 +14,7 @@ class CourseRepository(AbstractRepository):
 
     def delete_course(self, course: Course) -> bool:
         query = "DELETE FROM course WHERE course_id = %s"
-        return self.delete(query, course.id)
+        return self.delete(query, (course.id, ))
 
     def update_course(self, course: Course) -> bool:
         query = "UPDATE course SET name = %s, description = %s, professor = %s, " \

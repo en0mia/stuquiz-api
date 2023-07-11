@@ -9,11 +9,11 @@ class CategoryRepository(AbstractRepository):
 
     def create_category(self, category: Category) -> bool:
         query = "INSERT INTO category (name) VALUES (%s)"
-        return self.insert(query, category.name)
+        return self.insert(query, (category.name, ))
 
     def delete_category(self, category: Category) -> bool:
         query = "DELETE FROM category WHERE id = %s"
-        return self.delete(query, category.id)
+        return self.delete(query, (category.id, ))
 
     def update_category(self, category: Category) -> bool:
         query = "UPDATE category SET name = %s WHERE id = %s"

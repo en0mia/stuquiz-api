@@ -15,7 +15,7 @@ class AnswerRepository(AbstractRepository):
 
     def delete_answer(self, answer: Answer) -> bool:
         query = "DELETE FROM answer WHERE id = %s"
-        return self.delete(query, answer.id)
+        return self.delete(query, (answer.id, ))
 
     def update_answer_text(self, answer: Answer) -> bool:
         query = "UPDATE answer SET answer = %s WHERE id = %s"
