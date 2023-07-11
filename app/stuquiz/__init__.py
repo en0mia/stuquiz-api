@@ -1,8 +1,11 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 22/05/23
 import os
-from flask import Flask
+
 import toml
+from flask import Flask
+
+from app.stuquiz.utils.database_provider import DatabaseProvider
 
 
 def create_app(test_config=None):
@@ -29,5 +32,10 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    @app.teardown_appcontext
+    def close_connection(exception=None):
+        """On app teardown, close the database connection."""
+        DatabaseProvider.close_db()
 
     return app
