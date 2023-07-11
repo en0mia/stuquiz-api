@@ -1,8 +1,11 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 22/05/23
 import os
-from flask import Flask
+
 import toml
+from flask import Flask
+
+from app.stuquiz.routes.router import register_routes
 
 
 def create_app(test_config=None):
@@ -31,5 +34,7 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    register_routes(app)
 
     return app
