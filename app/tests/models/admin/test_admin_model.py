@@ -59,6 +59,7 @@ class TestAdminModel(unittest.TestCase):
     def testLoginAdmin_returnNone_whenIncorrectPassword(self):
         # Arrange
         self.admin_repository.select_admin_by_email.return_value = self.TEST_ADMIN
+        self.admin_repository.select_admin_by_email_password.return_value = None
 
         # Act
         result = self.admin_model.login_admin(self.TEST_ADMIN.email, 'wrong password')
@@ -70,6 +71,7 @@ class TestAdminModel(unittest.TestCase):
     def testLoginAdmin_returnAdminId_whenCorrectPassword(self):
         # Arrange
         self.admin_repository.select_admin_by_email.return_value = self.TEST_ADMIN
+        self.admin_repository.select_admin_by_email_password.return_value = self.TEST_ADMIN
 
         # Act
         result = self.admin_model.login_admin(self.TEST_ADMIN.email, self.TEST_PASSWORD)

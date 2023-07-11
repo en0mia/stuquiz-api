@@ -30,16 +30,25 @@ class AdminModel(object):
 
     @staticmethod
     def store_session(admin_id: str) -> None:
-        """Store the admin_id into the cookie session managed by the client.
+        """Stores the admin_id into the cookie session managed by the client.
         :param admin_id: Admin's id
         :return: void
         """
         session['admin_id'] = admin_id
 
     def get_admin_by_id(self, admin_id: str) -> Optional[Admin]:
+        """Returns the admin with the provided id.
+        :param admin_id: The admin's ID.
+        :return: Admin | None if the ID does not exist.
+        """
         return self.admin_repository.select_admin_by_id(admin_id)
 
     def login_admin(self, email: str, clear_password: str) -> Optional[str]:
+        """Verifies admin's credentials and returns the corresponding admin ID.
+        :param email: Admin's email.
+        :param clear_password: Admin's password.
+        :return: Admin ID | None if the credentials are invalid.
+        """
         admin = self.admin_repository.select_admin_by_email(email)
 
         if admin is None:
@@ -48,6 +57,8 @@ class AdminModel(object):
         salt = admin.salt
         hashed_password = self.hash_password(clear_password, salt)
 
-        if hashed_password != admin.password:
+        admin = self.admin_repository.select_admin_by_email_password(email, hashed_password)
+
+        if admin is None:
             return None
         return admin.id
