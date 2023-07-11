@@ -8,6 +8,6 @@ logout_admin_page = Blueprint('logout_admin', __name__)
 
 
 @logout_admin_page.route('/admin/logout', methods=['POST'])
-def login():
+def logout():
     """Defines the route to log out an admin."""
     return LogoutAdminController().execute({})
