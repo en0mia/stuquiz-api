@@ -36,7 +36,7 @@ class TestCategoryRepository(unittest.TestCase):
     def test_create_category(self):
         # Arrange
         expected_query = 'INSERT INTO category (name) VALUES (%s)'
-        expected_arg = self.test_category.name
+        expected_arg = (self.test_category.name, )
 
         # Act
         result = self.repository.create_category(self.test_category)
@@ -51,7 +51,7 @@ class TestCategoryRepository(unittest.TestCase):
     def test_delete_category(self):
         # Arrange
         expected_query = 'DELETE FROM category WHERE id = %s'
-        expected_arg = self.test_category.id
+        expected_arg = (self.test_category.id, )
 
         # Act
         result = self.repository.delete_category(self.test_category)

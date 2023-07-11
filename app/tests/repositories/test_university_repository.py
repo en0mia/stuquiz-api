@@ -36,7 +36,7 @@ class TestUniversityRepository(unittest.TestCase):
     def test_create_university(self):
         # Arrange
         expected_query = 'INSERT INTO university (name) VALUES (%s)'
-        expected_arg = self.test_university.name
+        expected_arg = (self.test_university.name, )
 
         # Act
         result = self.repository.create_university(self.test_university)
@@ -51,7 +51,7 @@ class TestUniversityRepository(unittest.TestCase):
     def test_delete_university(self):
         # Arrange
         expected_query = 'DELETE FROM university WHERE id = %s'
-        expected_arg = self.test_university.id
+        expected_arg = (self.test_university.id, )
 
         # Act
         result = self.repository.delete_university(self.test_university)
