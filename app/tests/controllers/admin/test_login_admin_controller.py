@@ -19,7 +19,7 @@ class TestLoginAdminController(unittest.TestCase):
         self.controller = LoginAdminController(self.admin_model)
 
     def tearDown(self) -> None:
-        self.university_model = None
+        self.admin_model = None
         self.controller = None
 
     def testExecute_return400_whenInvalidEmail(self):
