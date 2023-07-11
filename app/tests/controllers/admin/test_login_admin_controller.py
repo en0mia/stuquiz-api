@@ -9,7 +9,10 @@ from app.stuquiz.entities.admin import Admin
 
 
 class TestLoginAdminController(unittest.TestCase):
-    TEST_ADMIN = Admin(str(uuid.uuid4()), 'username', 'test@test.com', 'password', 'salt')
+    TEST_VALID_EMAIL = 'test@test.com'
+    TEST_INVALID_EMAIL = 'Not a valid email'
+    TEST_PASSWORD = 'password'
+    TEST_ADMIN = Admin(str(uuid.uuid4()), 'username', TEST_VALID_EMAIL, 'password', 'salt')
 
     def setUp(self) -> None:
         self.admin_model = MagicMock()
@@ -21,7 +24,7 @@ class TestLoginAdminController(unittest.TestCase):
 
     def testExecute_return400_whenInvalidEmail(self):
         # Arrange
-        input_body = {'email': 'This is not an email', 'password': 'anything'}
+        input_body = {'email': self.TEST_INVALID_EMAIL, 'password': self.TEST_PASSWORD}
 
         # Act
         result = self.controller.execute(input_body)
@@ -32,7 +35,7 @@ class TestLoginAdminController(unittest.TestCase):
 
     def testExecute_return400_whenEmptyPassword(self):
         # Arrange
-        input_body = {'email': 'test@test.com', 'password': ''}
+        input_body = {'email': self.TEST_VALID_EMAIL, 'password': ''}
 
         # Act
         result = self.controller.execute(input_body)
@@ -43,7 +46,7 @@ class TestLoginAdminController(unittest.TestCase):
 
     def testExecute_return400_whenEmptyEmail(self):
         # Arrange
-        input_body = {'email': '', 'password': 'valid password'}
+        input_body = {'email': '', 'password': self.TEST_PASSWORD}
 
         # Act
         result = self.controller.execute(input_body)
@@ -54,7 +57,7 @@ class TestLoginAdminController(unittest.TestCase):
 
     def testExecute_return401_whenAdminDontExist(self):
         # Arrange
-        input_body = {'email': 'test@test.com', 'password': 'valid password'}
+        input_body = {'email': self.TEST_VALID_EMAIL, 'password': self.TEST_PASSWORD}
         self.admin_model.login_admin.return_value = None
 
         # Act
@@ -66,7 +69,7 @@ class TestLoginAdminController(unittest.TestCase):
 
     def testExecute_return200_whenLoginSuccessful(self):
         # Arrange
-        input_body = {'email': 'test@test.com', 'password': 'valid password'}
+        input_body = {'email': self.TEST_VALID_EMAIL, 'password': self.TEST_PASSWORD}
         self.admin_model.login_admin.return_value = self.TEST_ADMIN
 
         # Act
