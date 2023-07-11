@@ -31,11 +31,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
     @app.teardown_appcontext
     def close_connection(exception=None):
         """On app teardown, close the database connection."""
