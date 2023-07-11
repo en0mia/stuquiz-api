@@ -62,3 +62,17 @@ class AdminModel(object):
         if admin is None:
             return None
         return admin.id
+
+    def is_admin_logged_in(self) -> bool:
+        """Checks if the current user is an admin by getting their admin_id from the session and looking
+        for it in the database.
+        :return: bool
+        """
+        admin_id = session['admin_id'] if 'admin_id' in session else None
+
+        if not admin_id:
+            return False
+
+        admin = self.get_admin_by_id(admin_id)
+
+        return admin is not None
