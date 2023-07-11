@@ -1,5 +1,6 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 04/07/23
+import uuid
 from typing import Optional
 
 from app.stuquiz.entities.university import University
@@ -15,3 +16,8 @@ class UniversityModel(object):
 
     def get_university_by_id(self, university_id: str) -> Optional[University]:
         return self.university_repository.select_university_by_id(university_id)
+
+    def add_university(self, university_name: str) -> bool:
+        university = University(str(uuid.uuid4()), university_name)
+
+        return self.university_repository.create_university(university)

@@ -1,8 +1,9 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 02/07/23
+from app.stuquiz.routes.admin.login_admin import login_admin_page
+from app.stuquiz.routes.university.add_university import add_university_page
 from app.stuquiz.routes.university.get_universities import get_universities_page
 from app.stuquiz.routes.university.get_university_by_id import get_university_by_id_page
-from app.stuquiz.routes.admin.login_admin import login_admin_page
 
 
 def register_routes(app) -> None:
@@ -13,3 +14,4 @@ def register_routes(app) -> None:
     app.register_blueprint(get_universities_page)
     app.register_blueprint(get_university_by_id_page)
     app.register_blueprint(login_admin_page)
+    app.register_blueprint(add_university_page)
