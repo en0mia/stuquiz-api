@@ -13,13 +13,13 @@ class QuestionRepository(AbstractRepository):
 
     def delete_question(self, question: Question) -> bool:
         query = "DELETE FROM question WHERE id = %s"
-        return self.delete(query, question.id)
+        return self.delete(query, (question.id, ))
 
     def update_question_text(self, question: Question) -> bool:
         query = "UPDATE question SET question = %s WHERE id = %s"
         return self.update(query, (question.question, question.id))
 
-    def select_question_by_id(self, question_id: int) -> Question:
+    def select_question_by_id(self, question_id: str) -> Question:
         query = "SELECT * FROM question WHERE id = %s"
-        result = self.select(query, question_id)
+        result = self.select(query, (question_id, ))
         return Question(*result[0]) if result and len(result) > 0 else None

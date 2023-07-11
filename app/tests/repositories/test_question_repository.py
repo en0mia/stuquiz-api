@@ -55,7 +55,7 @@ class TestQuestionRepository(unittest.TestCase):
     def test_delete_question(self):
         # Arrange
         expected_query = 'DELETE FROM question WHERE id = %s'
-        expected_arg = self.test_question.id
+        expected_arg = (self.test_question.id, )
 
         # Act
         result = self.repository.delete_question(self.test_question)
