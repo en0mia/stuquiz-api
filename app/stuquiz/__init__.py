@@ -6,6 +6,7 @@ import toml
 from flask import Flask
 
 from app.stuquiz.routes.router import register_routes
+from app.stuquiz.utils.database_provider import DatabaseProvider
 
 
 def create_app(test_config=None):
@@ -34,6 +35,11 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+
+    @app.teardown_appcontext
+    def close_connection(exception=None):
+        """On app teardown, close the database connection."""
+        DatabaseProvider.close_db()
 
     register_routes(app)
 
