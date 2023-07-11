@@ -1,12 +1,16 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 04/07/23
 import unittest
+import uuid
 from unittest.mock import MagicMock
 
+from app.stuquiz.entities.university import University
 from app.stuquiz.models.university.university_model import UniversityModel
 
 
 class TestUniversityModel(unittest.TestCase):
+    TEST_UNIVERSITY = University(str(uuid.uuid4()), 'University Name')
+
     def setUp(self) -> None:
         self.university_repository = MagicMock()
         self.model = UniversityModel(self.university_repository)
@@ -34,3 +38,12 @@ class TestUniversityModel(unittest.TestCase):
 
         # Assert
         self.university_repository.select_university_by_id.assert_called_once()
+
+    def testUpdateUniversity_callRepository_whenCalled(self):
+        # Arrange
+
+        # Act
+        self.model.update_university(self.TEST_UNIVERSITY)
+
+        # Assert
+        self.university_repository.update_university.assert_called_once()

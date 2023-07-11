@@ -21,3 +21,6 @@ class UniversityModel(object):
         university = University(str(uuid.uuid4()), university_name)
 
         return self.university_repository.create_university(university)
+
+    def update_university(self, university: University) -> bool:
+        return self.university_repository.update_university(university)

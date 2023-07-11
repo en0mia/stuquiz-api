@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 from app.stuquiz.controllers.university.add_university_controller import AddUniversityController
 
 
-class TestGetUniversitiesController(unittest.TestCase):
+class TestAddUniversityController(unittest.TestCase):
     TEST_NAME = 'University name'
 
     def setUp(self) -> None:
@@ -17,6 +17,7 @@ class TestGetUniversitiesController(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.university_model = None
+        self.admin_model = None
         self.controller = None
 
     def testExecute_return401_whenAdminNotLoggedIn(self):
