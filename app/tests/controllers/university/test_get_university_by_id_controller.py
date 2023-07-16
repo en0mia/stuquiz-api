@@ -22,7 +22,6 @@ class TestGetUniversitiesController(unittest.TestCase):
 
     def testExecute_return404_whenUniversityDontExist(self):
         # Arrange
-        expected_body = []
         self.university_model.get_university_by_id.return_value = []
 
         # Act
