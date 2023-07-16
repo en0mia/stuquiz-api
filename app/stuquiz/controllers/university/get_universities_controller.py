@@ -3,14 +3,13 @@
 import json
 from typing import Optional
 
-from flask import Response, make_response
+from flask import Response
 
 from app.stuquiz.controllers.abstract_controller import AbstractController
 from app.stuquiz.models.university.university_model import UniversityModel
 
 
 class GetUniversitiesController(AbstractController):
-    """Returns all the universities."""
     def __init__(self, university_model: Optional[UniversityModel] = None):
         self.university_model = university_model or UniversityModel()
 
