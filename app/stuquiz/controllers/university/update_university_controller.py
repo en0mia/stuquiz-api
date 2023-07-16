@@ -17,6 +17,10 @@ class UpdateUniversityController(AbstractController):
         self.admin_model = admin_model or AdminModel()
 
     def execute(self, data: dict) -> Response:
+        """
+        :param data: a dict containing the university id and the new name.
+        :return: HTTP Response
+        """
         if not self.admin_model.is_admin_logged_in():
             return Response('', 401)
 

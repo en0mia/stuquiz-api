@@ -2,8 +2,8 @@
 # @created 2023-06-30
 from typing import Optional
 
-from app.stuquiz.repositories.abstract_repository import AbstractRepository
 from app.stuquiz.entities.university import University
+from app.stuquiz.repositories.abstract_repository import AbstractRepository
 
 
 class UniversityRepository(AbstractRepository):
@@ -26,14 +26,10 @@ class UniversityRepository(AbstractRepository):
         return University(*result[0]) if result and len(result) > 0 else None
 
     def select_universities(self) -> list[University]:
+        """Returns a list containing all the universities.
+        TODO: Add pagination.
+        :return: list[University]
+        """
         query = 'SELECT id, name FROM university;'
         records = self.select(query, ())
-        result = []
-
-        if not records:
-            return []
-
-        for record in records:
-            result.append(University(*record))
-
-        return result
+        return [University(*record) for record in records] if records else []
