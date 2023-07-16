@@ -3,13 +3,17 @@
 import uuid
 from typing import Optional
 
+from app.stuquiz.entities.course import Course
 from app.stuquiz.entities.university import University
+from app.stuquiz.repositories.course_repository import CourseRepository
 from app.stuquiz.repositories.university_repository import UniversityRepository
 
 
 class UniversityModel(object):
-    def __init__(self, university_repository: Optional[UniversityRepository] = None):
+    def __init__(self, university_repository: Optional[UniversityRepository] = None,
+                 course_repository: Optional[CourseRepository] = None):
         self.university_repository = university_repository or UniversityRepository()
+        self.course_repository = course_repository or CourseRepository()
 
     def get_universities(self) -> list[University]:
         """A proxy for UniversityRepository.select_university()
@@ -42,3 +46,9 @@ class UniversityModel(object):
         :return: bool
         """
         return self.university_repository.delete_university(university)
+
+    def get_university_courses(self, university: University) -> list[Course]:
+        """A proxy for CourseRepository.select_courses_by_university_id()
+        :return: list[Course]
+        """
+        return self.course_repository.select_courses_by_university_id(university.id)

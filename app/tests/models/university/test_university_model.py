@@ -13,10 +13,12 @@ class TestUniversityModel(unittest.TestCase):
 
     def setUp(self) -> None:
         self.university_repository = MagicMock()
-        self.model = UniversityModel(self.university_repository)
+        self.course_repository = MagicMock()
+        self.model = UniversityModel(self.university_repository, self.course_repository)
 
     def tearDown(self) -> None:
         self.university_repository = None
+        self.course_repository = None
         self.model = None
 
     def testGetUniversities_callRepository_whenCalled(self):
@@ -56,3 +58,12 @@ class TestUniversityModel(unittest.TestCase):
 
         # Assert
         self.university_repository.delete_university.assert_called_once()
+
+    def testGetUniversityCourses_callRepository_whenCalled(self):
+        # Arrange
+
+        # Act
+        self.model.get_university_courses(self.TEST_UNIVERSITY)
+
+        # Assert
+        self.course_repository.select_courses_by_university_id.assert_called_once()

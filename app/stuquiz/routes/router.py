@@ -6,6 +6,7 @@ from app.stuquiz.routes.university.add_university import add_university_page
 from app.stuquiz.routes.university.delete_university import delete_university_page
 from app.stuquiz.routes.university.get_universities import get_universities_page
 from app.stuquiz.routes.university.get_university_by_id import get_university_by_id_page
+from app.stuquiz.routes.university.get_university_courses import get_university_courses_page
 from app.stuquiz.routes.university.update_university import update_university_page
 
 
@@ -24,3 +25,4 @@ def register_routes(app) -> None:
     app.register_blueprint(add_university_page)
     app.register_blueprint(update_university_page)
     app.register_blueprint(delete_university_page)
+    app.register_blueprint(get_university_courses_page)
