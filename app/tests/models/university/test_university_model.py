@@ -47,3 +47,12 @@ class TestUniversityModel(unittest.TestCase):
 
         # Assert
         self.university_repository.update_university.assert_called_once()
+
+    def testDeleteUniversity_callRepository_whenCalled(self):
+        # Arrange
+
+        # Act
+        self.model.delete_university(self.TEST_UNIVERSITY)
+
+        # Assert
+        self.university_repository.delete_university.assert_called_once()

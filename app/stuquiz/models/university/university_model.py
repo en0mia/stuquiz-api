@@ -36,3 +36,9 @@ class UniversityModel(object):
         :return: bool
         """
         return self.university_repository.update_university(university)
+
+    def delete_university(self, university: University) -> bool:
+        """A proxy for UniversityRepository.delete_university()
+        :return: bool
+        """
+        return self.university_repository.delete_university(university)
