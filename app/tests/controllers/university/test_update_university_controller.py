@@ -71,7 +71,7 @@ class TestUpdateUniversityController(unittest.TestCase):
         self.university_model.update_university.assert_not_called()
         self.assertEqual(400, result.status_code)
 
-    def testExecute_return400_whenUniversityDoesNotExist(self):
+    def testExecute_return404_whenUniversityDoesNotExist(self):
         # Arrange
         self.admin_model.is_admin_logged_in.return_value = True
         self.university_model.get_university_by_id.return_value = None
@@ -82,7 +82,7 @@ class TestUpdateUniversityController(unittest.TestCase):
         # Assert
         self.admin_model.is_admin_logged_in.assert_called_once()
         self.university_model.update_university.assert_not_called()
-        self.assertEqual(400, result.status_code)
+        self.assertEqual(404, result.status_code)
 
     def testExecute_return500_whenDbError(self):
         # Arrange

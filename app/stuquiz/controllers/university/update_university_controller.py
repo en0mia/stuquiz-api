@@ -34,7 +34,7 @@ class UpdateUniversityController(AbstractController):
         university = self.university_model.get_university_by_id(university_id)
 
         if not university:
-            return Response('', 400)
+            return Response('', 404)
 
         university.name = university_name
 
