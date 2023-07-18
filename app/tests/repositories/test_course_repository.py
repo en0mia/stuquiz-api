@@ -140,8 +140,8 @@ class TestCourseRepository(unittest.TestCase):
         self.cursor.fetchall.return_value = [first_category, second_category]
         expected_result = [Category(*first_category), Category(*second_category)]
         expected_query = 'SELECT category.id, category.name FROM category, course, course_category ' \
-                'WHERE category.id = course_category.category_id ' \
-                'AND course.id = course_category.course_id AND course.id = %s'
+                         'WHERE category.id = course_category.category_id ' \
+                         'AND course.id = course_category.course_id AND course.id = %s'
 
         # Act
         result = self.repository.select_course_categories('course_id')
@@ -163,4 +163,32 @@ class TestCourseRepository(unittest.TestCase):
 
         # Assert
         self.cursor.execute.assert_called_once_with(expected_query, ('course_id',))
+        self.assertEqual(expected_result, result)
+
+    def test_selectCourses_returnCourses_whenCoursesExist(self):
+        # Arrange
+        course = (self.TEST_COURSE.id, self.TEST_COURSE.university_id, self.TEST_COURSE.name,
+                  self.TEST_COURSE.description, self.TEST_COURSE.professor, self.TEST_COURSE.code)
+        self.cursor.fetchall.side_effect = [[course], [(self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)]]
+        expected_result = [self.TEST_COURSE]
+        expected_query = 'SELECT id, university_id, name, description, professor, code FROM course'
+
+        # Act
+        result = self.repository.select_courses()
+
+        # Assert
+        self.cursor.execute.assert_has_calls([mock.call(expected_query, ())])
+        self.assertEqual(expected_result, result)
+
+    def test_selectCourses_returnEmptyList_whenCoursesDontExist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = []
+        expected_result = []
+        expected_query = 'SELECT id, university_id, name, description, professor, code FROM course'
+
+        # Act
+        result = self.repository.select_courses()
+
+        # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, ())
         self.assertEqual(expected_result, result)

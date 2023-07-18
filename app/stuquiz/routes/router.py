@@ -2,6 +2,7 @@
 # @created 02/07/23
 from app.stuquiz.routes.admin.login_admin import login_admin_page
 from app.stuquiz.routes.admin.logout_admin import logout_admin_page
+from app.stuquiz.routes.course.get_courses import get_courses_page
 from app.stuquiz.routes.university.add_university import add_university_page
 from app.stuquiz.routes.university.delete_university import delete_university_page
 from app.stuquiz.routes.university.get_universities import get_universities_page
@@ -26,3 +27,6 @@ def register_routes(app) -> None:
     app.register_blueprint(update_university_page)
     app.register_blueprint(delete_university_page)
     app.register_blueprint(get_university_courses_page)
+
+    # Course
+    app.register_blueprint(get_courses_page)

@@ -50,3 +50,15 @@ class CourseRepository(AbstractRepository):
             course.categories = self.select_course_categories(course.id)
         return results
 
+    def select_courses(self) -> list[Course]:
+        """Returns all the courses.
+        TODO: implement pagination.
+        :return: list[Course]
+        """
+        query = "SELECT id, university_id, name, description, professor, code FROM course"
+        records = self.select(query, ())
+        results = [Course(*record) for record in records] if records else []
+
+        for course in results:
+            course.categories = self.select_course_categories(course.id)
+        return results
