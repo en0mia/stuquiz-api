@@ -30,7 +30,7 @@ class TestCourseRepository(unittest.TestCase):
         self.db_provider = None
         self.repository = None
 
-    def test_create_course(self):
+    def testCreateCourse_ReturnTrue_WhenCourseCreated(self):
         # Arrange
         expected_query = 'INSERT INTO course (name, description, professor, code, university_id) ' \
                          'VALUES (%s, %s, %s, %s, %s)'
@@ -42,12 +42,10 @@ class TestCourseRepository(unittest.TestCase):
 
         # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
-
         self.db.commit.assert_called_once()
-
         self.assertTrue(result)
 
-    def test_delete_course(self):
+    def testDeleteCourse_ReturnTrue_WhenCourseDeleted(self):
         # Arrange
         expected_query = 'DELETE FROM course WHERE course_id = %s'
         expected_arg = (self.TEST_COURSE.id,)
@@ -57,12 +55,10 @@ class TestCourseRepository(unittest.TestCase):
 
         # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
-
         self.db.commit.assert_called_once()
-
         self.assertTrue(result)
 
-    def test_update_course(self):
+    def testUpdateCourse_ReturnTrue_WhenCourseUpdated(self):
         # Arrange
         expected_query = 'UPDATE course SET name = %s, description = %s, professor = %s, ' \
                          'code = %s, university_id = %s WHERE id = %s'
@@ -74,12 +70,10 @@ class TestCourseRepository(unittest.TestCase):
 
         # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
-
         self.db.commit.assert_called_once()
-
         self.assertTrue(result)
 
-    def test_select_course_by_id_when_course_exists(self):
+    def testSelectCourseById_ReturnCourse_WhenCourseExist(self):
         # Arrange
         expected_result = Course(self.TEST_COURSE.id, self.TEST_COURSE.university_id,
                                  self.TEST_COURSE.name, self.TEST_COURSE.description,
@@ -97,7 +91,7 @@ class TestCourseRepository(unittest.TestCase):
         # Assert
         self.assertEqual(expected_result, result)
 
-    def test_select_course_by_id_when_course_doesnt_exist(self):
+    def testSelectCourseById_ReturnNone_WhenCourseDontExist(self):
         # Arrange
         self.cursor.fetchall.return_value = None
 
