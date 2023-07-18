@@ -35,7 +35,7 @@
 | app/stuquiz/repositories/admin\_repository.py                                  |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/answer\_repository.py                                 |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/category\_repository.py                               |       16 |        0 |    100% |           |
-| app/stuquiz/repositories/course\_repository.py                                 |       35 |        3 |     91% |     29-33 |
+| app/stuquiz/repositories/course\_repository.py                                 |       31 |        0 |    100% |           |
 | app/stuquiz/repositories/question\_repository.py                               |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/university\_repository.py                             |       21 |        0 |    100% |           |
 | app/stuquiz/routes/\_\_init\_\_.py                                             |        0 |        0 |    100% |           |
@@ -79,7 +79,7 @@
 | app/tests/repositories/test\_course\_repository.py                             |       90 |        0 |    100% |           |
 | app/tests/repositories/test\_question\_repository.py                           |       57 |        0 |    100% |           |
 | app/tests/repositories/test\_university\_repository.py                         |       77 |        0 |    100% |           |
-|                                                                      **TOTAL** | **1380** |   **67** | **95%** |           |
+|                                                                      **TOTAL** | **1376** |   **64** | **95%** |           |
 
 
 ## Setup coverage badge
