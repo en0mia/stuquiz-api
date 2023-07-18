@@ -20,7 +20,6 @@ class TestCourseRepository(unittest.TestCase):
         self.cursor = MagicMock()
         self.db = MagicMock()
         self.db_provider = MagicMock()
-
         self.db.cursor.return_value = self.cursor
         self.db_provider.get_db.return_value = self.db
         self.repository = CourseRepository(self.db_provider)
@@ -49,7 +48,7 @@ class TestCourseRepository(unittest.TestCase):
     def testDeleteCourse_ReturnTrue_WhenCourseDeleted(self):
         # Arrange
         expected_query = 'DELETE FROM course WHERE course_id = %s'
-        expected_arg = (self.TEST_COURSE.id, )
+        expected_arg = (self.TEST_COURSE.id,)
 
         # Act
         result = self.repository.delete_course(self.TEST_COURSE)
@@ -103,6 +102,38 @@ class TestCourseRepository(unittest.TestCase):
 
         # Assert
         self.assertIsNone(result)
+
+    def test_selectCoursesByUniversityID_returnCourses_whenCoursesExist(self):
+        # Arrange
+        first_course = (self.TEST_COURSE.id, self.TEST_COURSE.university_id, self.TEST_COURSE.name,
+                        self.TEST_COURSE.description, self.TEST_COURSE.professor, self.TEST_COURSE.code)
+        second_course = (str(uuid.uuid4()), self.TEST_COURSE.university_id, "name", "description", "professor",
+                         "code")
+        self.cursor.fetchall.side_effect = [[first_course, second_course], [], []]
+        expected_result = [Course(*first_course), Course(*second_course)]
+        expected_query = 'SELECT id, university_id, name, description, professor, code FROM course WHERE ' \
+                         'university_id = %s'
+
+        # Act
+        result = self.repository.select_courses_by_university_id('university_id')
+
+        # Assert
+        self.cursor.execute.assert_has_calls([mock.call(expected_query, ('university_id',))])
+        self.assertEqual(expected_result, result)
+
+    def test_selectCoursesByUniversityID_returnEmptyList_whenCoursesDontExist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = None
+        expected_result = []
+        expected_query = 'SELECT id, university_id, name, description, professor, code FROM course WHERE ' \
+                         'university_id = %s'
+
+        # Act
+        result = self.repository.select_courses_by_university_id('university_id')
+
+        # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, ('university_id',))
+        self.assertEqual(expected_result, result)
 
     def test_selectCourseCategories_returnCategories_whenCategoriesExist(self):
         # Arrange

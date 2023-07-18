@@ -19,3 +19,14 @@ class Course(Entity):
     professor: str
     code: str
     categories: Optional[list[Category]] = field(default_factory=list)
+
+    def dump(self) -> dict:
+        return {
+            'id': self.id,
+            'university_id': self.university_id,
+            'name': self.name,
+            'description': self.description,
+            'professor': self.professor,
+            'categories': [category.dump() for category in self.categories],
+            'code': self.code
+        }
