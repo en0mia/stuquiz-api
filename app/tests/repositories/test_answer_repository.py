@@ -66,9 +66,7 @@ class TestAnswerRepository(unittest.TestCase):
 
         # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
-
         self.db.commit.assert_called_once()
-
         self.assertTrue(result)
 
     def testSelectAnswerById_ReturnAnswer_WhenAnswerExist(self):
