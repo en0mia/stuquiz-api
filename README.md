@@ -35,7 +35,7 @@
 | app/stuquiz/repositories/admin\_repository.py                                  |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/answer\_repository.py                                 |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/category\_repository.py                               |       16 |        0 |    100% |           |
-| app/stuquiz/repositories/course\_repository.py                                 |       28 |        0 |    100% |           |
+| app/stuquiz/repositories/course\_repository.py                                 |       35 |        3 |     91% |     29-33 |
 | app/stuquiz/repositories/question\_repository.py                               |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/university\_repository.py                             |       21 |        0 |    100% |           |
 | app/stuquiz/routes/\_\_init\_\_.py                                             |        0 |        0 |    100% |           |
@@ -74,12 +74,12 @@
 | app/tests/repositories/\_\_init\_\_.py                                         |        0 |        0 |    100% |           |
 | app/tests/repositories/test\_abstract\_repository.py                           |       29 |        0 |    100% |           |
 | app/tests/repositories/test\_admin\_repository.py                              |       65 |        0 |    100% |           |
-| app/tests/repositories/test\_answer\_repository.py                             |       50 |        0 |    100% |           |
-| app/tests/repositories/test\_category\_repository.py                           |       49 |        0 |    100% |           |
-| app/tests/repositories/test\_course\_repository.py                             |       84 |        0 |    100% |           |
-| app/tests/repositories/test\_question\_repository.py                           |       50 |        0 |    100% |           |
-| app/tests/repositories/test\_university\_repository.py                         |       70 |        0 |    100% |           |
-|                                                                      **TOTAL** | **1345** |   **64** | **95%** |           |
+| app/tests/repositories/test\_answer\_repository.py                             |       51 |        0 |    100% |           |
+| app/tests/repositories/test\_category\_repository.py                           |       56 |        0 |    100% |           |
+| app/tests/repositories/test\_course\_repository.py                             |       90 |        0 |    100% |           |
+| app/tests/repositories/test\_question\_repository.py                           |       57 |        0 |    100% |           |
+| app/tests/repositories/test\_university\_repository.py                         |       77 |        0 |    100% |           |
+|                                                                      **TOTAL** | **1380** |   **67** | **95%** |           |
 
 
 ## Setup coverage badge
