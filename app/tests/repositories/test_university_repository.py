@@ -11,6 +11,7 @@ from app.stuquiz.repositories.university_repository import UniversityRepository
 
 class TestUniversityRepository(unittest.TestCase):
     TEST_UNIVERSITY = University(str(uuid.uuid4()), "Test University")
+    NON_EXISTING_ID = 'test-id'
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -69,23 +70,28 @@ class TestUniversityRepository(unittest.TestCase):
     def testSelectUniversityById_ReturnUniversity_WhenUniversityExist(self):
         # Arrange
         expected_result = University(self.TEST_UNIVERSITY.id, self.TEST_UNIVERSITY.name)
-
         self.cursor.fetchall.return_value = [(self.TEST_UNIVERSITY.id, self.TEST_UNIVERSITY.name)]
+        expected_query = 'SELECT id, name FROM university WHERE id = %s'
+        expected_arg = (self.TEST_UNIVERSITY.id, )
 
         # Act
         result = self.repository.select_university_by_id(self.TEST_UNIVERSITY.id)
 
         # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertEqual(expected_result, result)
 
     def testSelectUniversityById_ReturnNone_WhenUniversityDontExist(self):
         # Arrange
         self.cursor.fetchall.return_value = None
+        expected_query = 'SELECT id, name FROM university WHERE id = %s'
+        expected_arg = (self.NON_EXISTING_ID, )
 
         # Act
-        result = self.repository.select_university_by_id("test-id")
+        result = self.repository.select_university_by_id(self.NON_EXISTING_ID)
 
         # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertIsNone(result)
 
     def test_selectUniversities_returnUniversities_whenUniversitiesExist(self):

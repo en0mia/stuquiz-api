@@ -22,9 +22,13 @@ class CourseRepository(AbstractRepository):
                            course.code, course.university_id, course.id))
 
     def select_course_by_id(self, course_id: str) -> Course:
-        query = "SELECT * FROM course WHERE id = %s"
+        query = "SELECT id, university_id, name, description, professor, code FROM course WHERE id = %s"
         result = self.select(query, (course_id, ))
-        return Course(*result[0]) if result and len(result) > 0 else None
+        course = Course(*result[0]) if result and len(result) > 0 else None
+
+        if course:
+            course.categories = self.select_course_categories(course.id)
+        return course
 
     def select_course_categories(self, course_id: str) -> list[Category]:
         """Returns a list of categories linked to a course.

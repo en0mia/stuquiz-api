@@ -11,6 +11,7 @@ from app.stuquiz.repositories.category_repository import CategoryRepository
 
 class TestCategoryRepository(unittest.TestCase):
     TEST_CATEGORY = Category(str(uuid.uuid4()), "Test category")
+    NON_EXISTING_ID = 'id-test'
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -70,19 +71,25 @@ class TestCategoryRepository(unittest.TestCase):
         # Arrange
         expected_result = Category(self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)
         self.cursor.fetchall.return_value = [(self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)]
+        expected_query = 'SELECT id, name FROM category WHERE id = %s'
+        expected_arg = (self.TEST_CATEGORY.id, )
 
         # Act
         result = self.repository.select_category_by_id(self.TEST_CATEGORY.id)
 
         # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertEqual(expected_result, result)
 
     def testSelectCategoryById_ReturnNone_WhenCategoryDontExist(self):
         # Arrange
         self.cursor.fetchall.return_value = None
+        expected_query = 'SELECT id, name FROM category WHERE id = %s'
+        expected_arg = (self.NON_EXISTING_ID, )
 
         # Act
-        result = self.repository.select_category_by_id("id-test")
+        result = self.repository.select_category_by_id(self.NON_EXISTING_ID)
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
 
         # Assert
         self.assertIsNone(result)
