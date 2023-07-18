@@ -19,8 +19,5 @@ class GetUniversitiesController(AbstractController):
         :return: HTTP Response
         """
         universities = self.university_model.get_universities()
-        result = []
-
-        for university in universities:
-            result.append(university.dump())
+        result = [university.dump() for university in universities]
         return Response(json.dumps(result), 200)
