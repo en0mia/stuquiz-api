@@ -49,12 +49,12 @@
 | app/tests/repositories/\_\_init\_\_.py                         |        0 |        0 |    100% |           |
 | app/tests/repositories/test\_abstract\_repository.py           |       29 |        0 |    100% |           |
 | app/tests/repositories/test\_admin\_repository.py              |       65 |        0 |    100% |           |
-| app/tests/repositories/test\_answer\_repository.py             |       52 |        0 |    100% |           |
-| app/tests/repositories/test\_category\_repository.py           |       51 |        0 |    100% |           |
-| app/tests/repositories/test\_course\_repository.py             |       55 |        0 |    100% |           |
-| app/tests/repositories/test\_question\_repository.py           |       52 |        0 |    100% |           |
-| app/tests/repositories/test\_university\_repository.py         |       51 |        0 |    100% |           |
-|                                                      **TOTAL** |  **809** |   **46** | **94%** |           |
+| app/tests/repositories/test\_answer\_repository.py             |       50 |        0 |    100% |           |
+| app/tests/repositories/test\_category\_repository.py           |       49 |        0 |    100% |           |
+| app/tests/repositories/test\_course\_repository.py             |       51 |        0 |    100% |           |
+| app/tests/repositories/test\_question\_repository.py           |       50 |        0 |    100% |           |
+| app/tests/repositories/test\_university\_repository.py         |       49 |        0 |    100% |           |
+|                                                      **TOTAL** |  **797** |   **46** | **94%** |           |
 
 
 ## Setup coverage badge
