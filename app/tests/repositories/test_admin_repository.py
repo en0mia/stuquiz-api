@@ -12,10 +12,8 @@ from app.stuquiz.repositories.admin_repository import AdminRepository
 class TestAdminRepository(unittest.TestCase):
     TEST_PASSWORD = 'password'
     TEST_SALT = 'salt'
-    TEST_HASHED_PASSWORD = hashlib.pbkdf2_hmac(
-        'sha256', TEST_PASSWORD.encode('utf-8'),
-        TEST_SALT.encode('utf-8'), 100000
-    ).hex()
+    TEST_HASHED_PASSWORD = hashlib.pbkdf2_hmac('sha256', TEST_PASSWORD.encode('utf-8'), TEST_SALT.encode('utf-8'),
+                                               100000).hex()
     TEST_ADMIN = Admin(str(uuid.uuid4()), 'username', 'test@test.com', TEST_HASHED_PASSWORD, TEST_SALT)
 
     def setUp(self) -> None:
@@ -36,7 +34,7 @@ class TestAdminRepository(unittest.TestCase):
     def testSelectAdminById_returnAdmin_whenAdminExist(self):
         # Arrange
         expected_query = 'SELECT id, username, email, password, salt FROM admin WHERE id = %s'
-        expected_arg = (self.TEST_ADMIN.id, )
+        expected_arg = (self.TEST_ADMIN.id,)
         self.cursor.fetchall.return_value = [(
             self.TEST_ADMIN.id,
             self.TEST_ADMIN.username,
@@ -55,7 +53,7 @@ class TestAdminRepository(unittest.TestCase):
     def testSelectAdminById_returnNone_whenAdminDontExist(self):
         # Arrange
         expected_query = 'SELECT id, username, email, password, salt FROM admin WHERE id = %s'
-        expected_arg = (self.TEST_ADMIN.id, )
+        expected_arg = (self.TEST_ADMIN.id,)
         self.cursor.fetchall.return_value = []
 
         # Act
@@ -68,7 +66,7 @@ class TestAdminRepository(unittest.TestCase):
     def testSelectAdminByEmail_returnAdmin_whenAdminExist(self):
         # Arrange
         expected_query = 'SELECT id, username, email, password, salt FROM admin WHERE email = %s'
-        expected_arg = (self.TEST_ADMIN.email, )
+        expected_arg = (self.TEST_ADMIN.email,)
         self.cursor.fetchall.return_value = [(
             self.TEST_ADMIN.id,
             self.TEST_ADMIN.username,
@@ -87,7 +85,7 @@ class TestAdminRepository(unittest.TestCase):
     def testSelectAdminByEmail_returnNone_whenAdminDontExist(self):
         # Arrange
         expected_query = 'SELECT id, username, email, password, salt FROM admin WHERE email = %s'
-        expected_arg = (self.TEST_ADMIN.email, )
+        expected_arg = (self.TEST_ADMIN.email,)
         self.cursor.fetchall.return_value = []
 
         # Act
