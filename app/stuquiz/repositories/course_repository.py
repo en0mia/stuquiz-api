@@ -1,5 +1,7 @@
 # @author Lorenzo Varese
 # @created 2023-06-30
+from typing import Optional
+
 from app.stuquiz.entities.category import Category
 from app.stuquiz.entities.course import Course
 from app.stuquiz.repositories.abstract_repository import AbstractRepository
@@ -21,7 +23,7 @@ class CourseRepository(AbstractRepository):
         return self.update(query, (course.name, course.description, course.professor,
                            course.code, course.university_id, course.id))
 
-    def select_course_by_id(self, course_id: str) -> Course:
+    def select_course_by_id(self, course_id: str) -> Optional[Course]:
         query = "SELECT id, university_id, name, description, professor, code FROM course WHERE id = %s"
         result = self.select(query, (course_id,))
         course = Course(*result[0]) if result and len(result) > 0 else None
