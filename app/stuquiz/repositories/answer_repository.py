@@ -1,8 +1,8 @@
 # @author Lorenzo Varese
 # @created 2023-06-30
 
-from app.stuquiz.repositories.abstract_repository import AbstractRepository
 from app.stuquiz.entities.answer import Answer
+from app.stuquiz.repositories.abstract_repository import AbstractRepository
 
 
 class AnswerRepository(AbstractRepository):
@@ -22,6 +22,6 @@ class AnswerRepository(AbstractRepository):
         return self.update(query, (answer.answer, answer.id))
 
     def select_answer_by_id(self, answer_id: str) -> Answer:
-        query = "SELECT * FROM answer WHERE id = %s"
+        query = "SELECT id, question_id, answer, creation_date, correct, points FROM answer WHERE id = %s"
         result = self.select(query, (answer_id, ))
         return Answer(*result[0]) if result and len(result) > 0 else None

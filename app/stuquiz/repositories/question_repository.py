@@ -1,8 +1,8 @@
 # @author Lorenzo Varese
 # @created 2023-06-30
 
-from app.stuquiz.repositories.abstract_repository import AbstractRepository
 from app.stuquiz.entities.question import Question
+from app.stuquiz.repositories.abstract_repository import AbstractRepository
 
 
 class QuestionRepository(AbstractRepository):
@@ -20,6 +20,6 @@ class QuestionRepository(AbstractRepository):
         return self.update(query, (question.question, question.id))
 
     def select_question_by_id(self, question_id: str) -> Question:
-        query = "SELECT * FROM question WHERE id = %s"
+        query = "SELECT id, course_id, question, creation_date, rating FROM question WHERE id = %s"
         result = self.select(query, (question_id, ))
         return Question(*result[0]) if result and len(result) > 0 else None
