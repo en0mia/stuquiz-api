@@ -22,7 +22,7 @@ class LoginAdminController(AbstractController):
         email = data['email']
         clear_password = data['password']
 
-        if not checkers.is_email(email) or not checkers.is_not_empty(clear_password):
+        if not checkers.is_email(email) or not clear_password:
             return Response('', 400)
 
         admin_id = self.admin_model.login_admin(email, clear_password)

@@ -26,7 +26,7 @@ class AddUniversityController(AbstractController):
 
         university_name = data['name'] if 'name' in data else None
 
-        if not checkers.is_string(university_name) or not checkers.is_not_empty(university_name):
+        if not checkers.is_string(university_name) or not university_name:
             return Response('', 400)
 
         if not self.university_model.add_university(university_name):

@@ -27,8 +27,7 @@ class UpdateUniversityController(AbstractController):
         university_id = data['university_id'] if 'university_id' in data else None
         university_name = data['name'] if 'name' in data else None
 
-        if not checkers.is_string(university_name) or not checkers.is_not_empty(university_name) \
-                or not checkers.is_uuid(university_id):
+        if not checkers.is_string(university_name) or not university_name or not checkers.is_uuid(university_id):
             return Response('', 400)
 
         university = self.university_model.get_university_by_id(university_id)
