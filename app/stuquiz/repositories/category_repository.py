@@ -1,8 +1,8 @@
 # @author Lorenzo Varese
 # @created 2023-06-30
 
-from app.stuquiz.repositories.abstract_repository import AbstractRepository
 from app.stuquiz.entities.category import Category
+from app.stuquiz.repositories.abstract_repository import AbstractRepository
 
 
 class CategoryRepository(AbstractRepository):
@@ -20,6 +20,6 @@ class CategoryRepository(AbstractRepository):
         return self.update(query, (category.name, category.id))
 
     def select_category_by_id(self, category_id: str) -> Category:
-        query = "SELECT * FROM category WHERE id = %s"
+        query = "SELECT id, name FROM category WHERE id = %s"
         result = self.select(query, (category_id, ))
         return Category(*result[0]) if result and len(result) > 0 else None

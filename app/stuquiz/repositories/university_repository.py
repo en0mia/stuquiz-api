@@ -20,8 +20,8 @@ class UniversityRepository(AbstractRepository):
         query = "UPDATE university SET name = %s WHERE id = %s"
         return self.update(query, (university.name, university.id))
 
-    def select_university_by_id(self, university_id: str) -> Optional[University]:
-        query = "SELECT * FROM university WHERE id = %s"
+    def select_university_by_id(self, university_id: str) -> University:
+        query = "SELECT id, name FROM university WHERE id = %s"
         result = self.select(query, (university_id, ))
         return University(*result[0]) if result and len(result) > 0 else None
 

@@ -11,6 +11,7 @@ from app.stuquiz.repositories.answer_repository import AnswerRepository
 
 
 class TestAnswerRepository(unittest.TestCase):
+    NON_EXISTING_ID = 'id-test'
     TEST_ANSWER = Answer(str(uuid.uuid4()), str(uuid.uuid4()), "Test answer", datetime.now(), True, 10.0)
 
     def setUp(self) -> None:

@@ -12,6 +12,7 @@ from app.stuquiz.repositories.question_repository import QuestionRepository
 
 class TestQuestionRepository(unittest.TestCase):
     TEST_QUESTION = Question(str(uuid.uuid4()), str(uuid.uuid4()), "Test question", datetime.now(), 5)
+    NON_EXISTING_ID = 'test-id'
 
     def setUp(self) -> None:
         self.cursor = MagicMock()
@@ -76,19 +77,25 @@ class TestQuestionRepository(unittest.TestCase):
         self.cursor.fetchall.return_value = [(self.TEST_QUESTION.id, self.TEST_QUESTION.course_id,
                                               self.TEST_QUESTION.question, self.TEST_QUESTION.creation_date,
                                               self.TEST_QUESTION.rating)]
+        expected_query = 'SELECT id, course_id, question, creation_date, rating FROM question WHERE id = %s'
+        expected_arg = (self.TEST_QUESTION.id, )
 
         # Act
         result = self.repository.select_question_by_id(self.TEST_QUESTION.id)
 
         # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertEqual(expected_result, result)
 
     def testSelectQuestionById_ReturnNone_WhenQuestionDontExist(self):
         # Arrange
         self.cursor.fetchall.return_value = None
+        expected_query = 'SELECT id, course_id, question, creation_date, rating FROM question WHERE id = %s'
+        expected_arg = (self.NON_EXISTING_ID, )
 
         # Act
-        result = self.repository.select_question_by_id("test-id")
+        result = self.repository.select_question_by_id(self.NON_EXISTING_ID)
 
         # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertIsNone(result)

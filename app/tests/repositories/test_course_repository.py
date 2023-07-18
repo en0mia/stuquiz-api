@@ -77,18 +77,20 @@ class TestCourseRepository(unittest.TestCase):
         # Arrange
         expected_result = Course(self.TEST_COURSE.id, self.TEST_COURSE.university_id,
                                  self.TEST_COURSE.name, self.TEST_COURSE.description,
-                                 self.TEST_COURSE.professor, self.TEST_COURSE.categories,
-                                 self.TEST_COURSE.code)
-
-        self.cursor.fetchall.return_value = [(self.TEST_COURSE.id, self.TEST_COURSE.university_id,
-                                              self.TEST_COURSE.name, self.TEST_COURSE.description,
-                                              self.TEST_COURSE.professor, self.TEST_COURSE.categories,
-                                              self.TEST_COURSE.code)]
+                                 self.TEST_COURSE.professor, self.TEST_COURSE.code,
+                                 self.TEST_COURSE.categories)
+        category = (self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)
+        expected_query = 'SELECT id, university_id, name, description, professor, code FROM course WHERE id = %s'
+        expected_arg = (self.TEST_COURSE.id, )
+        self.cursor.fetchall.side_effect = [[(self.TEST_COURSE.id, self.TEST_COURSE.university_id,
+                                             self.TEST_COURSE.name, self.TEST_COURSE.description,
+                                             self.TEST_COURSE.professor, self.TEST_COURSE.code)], [category]]
 
         # Act
         result = self.repository.select_course_by_id(self.TEST_COURSE.id)
 
         # Assert
+        self.cursor.execute.assert_has_calls([mock.call(expected_query, expected_arg)])
         self.assertEqual(expected_result, result)
 
     def testSelectCourseById_ReturnNone_WhenCourseDontExist(self):
@@ -140,14 +142,15 @@ class TestCourseRepository(unittest.TestCase):
         self.cursor.fetchall.return_value = [first_category, second_category]
         expected_result = [Category(*first_category), Category(*second_category)]
         expected_query = 'SELECT category.id, category.name FROM category, course, course_category ' \
-                'WHERE category.id = course_category.category_id ' \
-                'AND course.id = course_category.course_id AND course.id = %s'
+                         'WHERE category.id = course_category.category_id ' \
+                         'AND course.id = course_category.course_id AND course.id = %s'
+        expected_arg = (self.TEST_COURSE.id,)
 
         # Act
-        result = self.repository.select_course_categories('course_id')
+        result = self.repository.select_course_categories(self.TEST_COURSE.id)
 
         # Assert
-        self.cursor.execute.assert_called_once_with(expected_query, ('course_id',))
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertEqual(expected_result, result)
 
     def test_selectCourseCategories_returnEmptyList_whenCategoriesDontExist(self):
@@ -157,10 +160,11 @@ class TestCourseRepository(unittest.TestCase):
         expected_query = 'SELECT category.id, category.name FROM category, course, course_category ' \
                          'WHERE category.id = course_category.category_id ' \
                          'AND course.id = course_category.course_id AND course.id = %s'
+        expected_arg = (self.TEST_COURSE.id, )
 
         # Act
-        result = self.repository.select_course_categories('course_id')
+        result = self.repository.select_course_categories(self.TEST_COURSE.id)
 
         # Assert
-        self.cursor.execute.assert_called_once_with(expected_query, ('course_id',))
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
         self.assertEqual(expected_result, result)
