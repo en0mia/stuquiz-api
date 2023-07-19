@@ -9,19 +9,15 @@ from app.stuquiz.entities.course import Course
 class CourseControllersUtils(object):
     @staticmethod
     def generate_expected_body(courses: list[Course]) -> list[dict]:
-        expected_body = []
-
-        for course in courses:
-            expected_body.append({
-                'id': course.id,
-                'university_id': course.university_id,
-                'name': course.name,
-                'description': course.description,
-                'professor_id': course.professor_id,
-                'categories': [category.dump() for category in course.categories],
-                'code': course.code
-            })
-        return expected_body
+        return [{
+            'id': course.id,
+            'university_id': course.university_id,
+            'name': course.name,
+            'description': course.description,
+            'professor_id': course.professor_id,
+            'categories': [category.dump() for category in course.categories],
+            'code': course.code
+        } for course in courses]
 
     @staticmethod
     def generate_courses(number: int) -> list[Course]:

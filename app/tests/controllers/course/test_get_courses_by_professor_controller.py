@@ -1,6 +1,7 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 19/07/23
 import unittest
+import uuid
 from unittest.mock import MagicMock
 
 from flask import json
@@ -36,7 +37,7 @@ class TestGetCoursesByProfessorController(unittest.TestCase):
         self.course_model.get_courses_by_professor.return_value = courses
 
         # Act
-        result = self.controller.execute({'professor_id': courses[0].professor_id})
+        result = self.controller.execute({'professor_id': str(uuid.uuid4())})
 
         # Assert
         self.course_model.get_courses_by_professor.assert_called_once()
