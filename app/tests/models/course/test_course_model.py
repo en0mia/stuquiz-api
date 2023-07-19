@@ -35,3 +35,13 @@ class TestCourseModel(unittest.TestCase):
 
         # Assert
         self.course_repository.select_course_by_id.assert_called_once()
+
+    def testGetCoursesByProfessor_callRepository_whenCalled(self):
+        # Arrange
+        self.course_repository.select_courses_by_professor_id.return_value = []
+
+        # Act
+        self.model.get_courses_by_professor(str(uuid.uuid4()))
+
+        # Assert
+        self.course_repository.select_courses_by_professor_id.assert_called_once()

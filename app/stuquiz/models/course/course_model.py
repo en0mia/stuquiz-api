@@ -15,3 +15,6 @@ class CourseModel(object):
 
     def get_course_by_id(self, course_id: str) -> Optional[Course]:
         return self.course_repository.select_course_by_id(course_id)
+
+    def get_courses_by_professor(self, professor_id: str) -> list[Course]:
+        return self.course_repository.select_courses_by_professor_id(professor_id)

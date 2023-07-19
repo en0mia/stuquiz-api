@@ -13,7 +13,7 @@ from app.stuquiz.entities.course import Course
 class TestGetCourseByIdController(unittest.TestCase):
     TEST_CATEGORY = Category(str(uuid.uuid4()), "Test category")
     TEST_COURSE = Course(str(uuid.uuid4()), str(uuid.uuid4()), "Test course", "Test course description",
-                         "Test professor", "TEST123", [TEST_CATEGORY])
+                         str(uuid.uuid4()), "TEST123", [TEST_CATEGORY])
 
     def setUp(self) -> None:
         self.course_model = MagicMock()
@@ -52,7 +52,7 @@ class TestGetCourseByIdController(unittest.TestCase):
             'university_id': self.TEST_COURSE.university_id,
             'name': self.TEST_COURSE.name,
             'description': self.TEST_COURSE.description,
-            'professor': self.TEST_COURSE.professor,
+            'professor_id': self.TEST_COURSE.professor_id,
             'categories': [category.dump() for category in self.TEST_COURSE.categories],
             'code': self.TEST_COURSE.code
         }
