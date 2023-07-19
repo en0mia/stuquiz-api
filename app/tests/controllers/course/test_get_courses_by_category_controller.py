@@ -46,7 +46,6 @@ class TestGetCoursesByCategoryController(unittest.TestCase):
     def testExecute_return200WithEmptyBody_whenCoursesDontExist(self):
         # Arrange
         expected_body = []
-        course = CourseControllersUtils.generate_courses(1)[0]
         self.course_model.get_courses_by_category.return_value = []
 
         # Act

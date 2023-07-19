@@ -15,7 +15,7 @@ class GetCoursesByCategoryController(AbstractController):
         self.course_model = course_model or CourseModel()
 
     def execute(self, data: dict) -> Response:
-        category_id = data['category_id'] if 'category_id' else None
+        category_id = data['category_id'] if 'category_id' in data else None
 
         if not checkers.is_uuid(category_id):
             return Response('', 400)
