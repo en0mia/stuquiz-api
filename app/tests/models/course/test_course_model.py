@@ -55,3 +55,13 @@ class TestCourseModel(unittest.TestCase):
 
         # Assert
         self.course_repository.select_courses_by_category_id.assert_called_once()
+
+    def testAddCourse_callRepository_whenCalled(self):
+        # Arrange
+        self.course_repository.create_course.return_value = True
+
+        # Act
+        self.model.add_course(str(uuid.uuid4()), 'name', 'description', str(uuid.uuid4()), 'code')
+
+        # Assert
+        self.course_repository.create_course.assert_called_once()

@@ -1,5 +1,6 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 18/07/23
+import uuid
 from typing import Optional
 
 from app.stuquiz.entities.course import Course
@@ -33,3 +34,10 @@ class CourseModel(object):
         :return: list[Course]
         """
         return self.course_repository.select_courses_by_category_id(category_id)
+
+    def add_course(self, university_id: str, name: str, description: str, professor_id: str, code: str) -> bool:
+        """A proxy for CourseRepository.create_course()
+        :return: bool
+        """
+        course = Course(str(uuid.uuid4()), university_id, name, description, professor_id, code)
+        return self.course_repository.create_course(course)
