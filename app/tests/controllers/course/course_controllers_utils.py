@@ -21,6 +21,6 @@ class CourseControllersUtils(object):
 
     @staticmethod
     def generate_courses(number: int) -> list[Course]:
-        return [Course(str(uuid.uuid4()), str(uuid.uuid4()), f"Test course %s" % i,
-                       f"Test course %s description" % i, str(uuid.uuid4()), f"TEST%s" % i,
-                       [Category(str(uuid.uuid4()), f"Test category %s" % i)]) for i in range(1, number + 1)]
+        return [Course(str(uuid.uuid4()), str(uuid.uuid4()), f"Test course {i}",
+                       f"Test course {i} description", str(uuid.uuid4()), f"TEST{i}",
+                       [Category(str(uuid.uuid4()), f"Test category{i}")]) for i in range(1, number + 1)]
