@@ -81,3 +81,18 @@ class CourseRepository(AbstractRepository):
         for course in results:
             course.categories = self.select_course_categories(course.id)
         return results
+
+    def select_courses_by_category_id(self, category_id: str) -> list[Course]:
+        """Returns the courses tagged with the category_id
+        :param category_id: The Category's ID
+        :return: list[Course]
+        """
+        query = "SELECT course.id, course.university_id, course.name, course.description, course.professor_id, " \
+                "course.code FROM category, course, course_category WHERE category.id = course_category.category_id " \
+                "AND course.id = course_category.course_id AND category.id = %s"
+        records = self.select(query, (category_id,))
+        results = [Course(*record) for record in records] if records else []
+
+        for course in results:
+            course.categories = self.select_course_categories(course.id)
+        return results

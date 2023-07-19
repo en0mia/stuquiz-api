@@ -16,6 +16,10 @@ class TestCourseRepository(unittest.TestCase):
     TEST_COURSE = Course(str(uuid.uuid4()), str(uuid.uuid4()), "Test course", "Test course description",
                          str(uuid.uuid4()), "TEST123", [TEST_CATEGORY])
 
+    @staticmethod
+    def course_to_tuple(course: Course) -> tuple:
+        return course.id, course.university_id, course.name, course.description, course.professor_id, course.code
+
     def setUp(self) -> None:
         self.cursor = MagicMock()
         self.db = MagicMock()
@@ -81,10 +85,10 @@ class TestCourseRepository(unittest.TestCase):
                                  self.TEST_COURSE.categories)
         category = (self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)
         expected_query = 'SELECT id, university_id, name, description, professor_id, code FROM course WHERE id = %s'
-        expected_arg = (self.TEST_COURSE.id, )
+        expected_arg = (self.TEST_COURSE.id,)
         self.cursor.fetchall.side_effect = [[(self.TEST_COURSE.id, self.TEST_COURSE.university_id,
-                                             self.TEST_COURSE.name, self.TEST_COURSE.description,
-                                             self.TEST_COURSE.professor_id, self.TEST_COURSE.code)], [category]]
+                                              self.TEST_COURSE.name, self.TEST_COURSE.description,
+                                              self.TEST_COURSE.professor_id, self.TEST_COURSE.code)], [category]]
 
         # Act
         result = self.repository.select_course_by_id(self.TEST_COURSE.id)
@@ -105,8 +109,7 @@ class TestCourseRepository(unittest.TestCase):
 
     def test_selectCoursesByUniversityID_returnCourses_whenCoursesExist(self):
         # Arrange
-        first_course = (self.TEST_COURSE.id, self.TEST_COURSE.university_id, self.TEST_COURSE.name,
-                        self.TEST_COURSE.description, self.TEST_COURSE.professor_id, self.TEST_COURSE.code)
+        first_course = self.course_to_tuple(self.TEST_COURSE)
         second_course = (str(uuid.uuid4()), self.TEST_COURSE.university_id, "name", "description", str(uuid.uuid4()),
                          "code")
         self.cursor.fetchall.side_effect = [[first_course, second_course], [], []]
@@ -160,7 +163,7 @@ class TestCourseRepository(unittest.TestCase):
         expected_query = 'SELECT category.id, category.name FROM category, course, course_category ' \
                          'WHERE category.id = course_category.category_id ' \
                          'AND course.id = course_category.course_id AND course.id = %s'
-        expected_arg = (self.TEST_COURSE.id, )
+        expected_arg = (self.TEST_COURSE.id,)
 
         # Act
         result = self.repository.select_course_categories(self.TEST_COURSE.id)
@@ -171,8 +174,7 @@ class TestCourseRepository(unittest.TestCase):
 
     def test_selectCourses_returnCourses_whenCoursesExist(self):
         # Arrange
-        course = (self.TEST_COURSE.id, self.TEST_COURSE.university_id, self.TEST_COURSE.name,
-                  self.TEST_COURSE.description, self.TEST_COURSE.professor_id, self.TEST_COURSE.code)
+        course = self.course_to_tuple(self.TEST_COURSE)
         self.cursor.fetchall.side_effect = [[course], [(self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)]]
         expected_result = [self.TEST_COURSE]
         expected_query = 'SELECT id, university_id, name, description, professor_id, code FROM course'
@@ -199,8 +201,7 @@ class TestCourseRepository(unittest.TestCase):
 
     def test_selectCoursesByProfessorId_returnCourses_whenCoursesExist(self):
         # Arrange
-        course = (self.TEST_COURSE.id, self.TEST_COURSE.university_id, self.TEST_COURSE.name,
-                  self.TEST_COURSE.description, self.TEST_COURSE.professor_id, self.TEST_COURSE.code)
+        course = self.course_to_tuple(self.TEST_COURSE)
         self.cursor.fetchall.side_effect = [[course], [(self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)]]
         expected_result = [self.TEST_COURSE]
         expected_query = 'SELECT id, university_id, name, description, professor_id, code FROM course ' \
@@ -224,6 +225,41 @@ class TestCourseRepository(unittest.TestCase):
 
         # Act
         result = self.repository.select_courses_by_professor_id(self.TEST_COURSE.professor_id)
+
+        # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
+        self.assertEqual(expected_result, result)
+
+    def test_selectCoursesByCategoryId_returnCourses_whenCoursesExist(self):
+        # Arrange
+        course = self.course_to_tuple(self.TEST_COURSE)
+        self.cursor.fetchall.side_effect = [[course], [(self.TEST_CATEGORY.id, self.TEST_CATEGORY.name)]]
+        expected_result = [self.TEST_COURSE]
+        expected_query = 'SELECT course.id, course.university_id, course.name, course.description, ' \
+                         'course.professor_id, course.code FROM category, course, course_category ' \
+                         'WHERE category.id = course_category.category_id AND course.id = course_category.course_id ' \
+                         'AND category.id = %s'
+        expected_arg = (self.TEST_CATEGORY.id,)
+
+        # Act
+        result = self.repository.select_courses_by_category_id(self.TEST_CATEGORY.id)
+
+        # Assert
+        self.cursor.execute.assert_has_calls([mock.call(expected_query, expected_arg)])
+        self.assertEqual(expected_result, result)
+
+    def test_selectCoursesByCategoryId_returnEmptyList_whenCoursesDontExist(self):
+        # Arrange
+        self.cursor.fetchall.return_value = []
+        expected_result = []
+        expected_query = 'SELECT course.id, course.university_id, course.name, course.description, ' \
+                         'course.professor_id, course.code FROM category, course, course_category ' \
+                         'WHERE category.id = course_category.category_id AND course.id = course_category.course_id ' \
+                         'AND category.id = %s'
+        expected_arg = (self.TEST_CATEGORY.id,)
+
+        # Act
+        result = self.repository.select_courses_by_category_id(self.TEST_CATEGORY.id)
 
         # Assert
         self.cursor.execute.assert_called_once_with(expected_query, expected_arg)
