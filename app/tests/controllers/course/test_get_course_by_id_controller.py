@@ -6,15 +6,10 @@ import uuid
 from unittest.mock import MagicMock
 
 from app.stuquiz.controllers.course.get_course_by_id_controller import GetCourseByIdController
-from app.stuquiz.entities.category import Category
-from app.stuquiz.entities.course import Course
+from app.tests.controllers.course.course_controllers_utils import CourseControllersUtils
 
 
 class TestGetCourseByIdController(unittest.TestCase):
-    TEST_CATEGORY = Category(str(uuid.uuid4()), "Test category")
-    TEST_COURSE = Course(str(uuid.uuid4()), str(uuid.uuid4()), "Test course", "Test course description",
-                         str(uuid.uuid4()), "TEST123", [TEST_CATEGORY])
-
     def setUp(self) -> None:
         self.course_model = MagicMock()
         self.controller = GetCourseByIdController(self.course_model)
@@ -39,7 +34,7 @@ class TestGetCourseByIdController(unittest.TestCase):
         self.course_model.get_course_by_id.return_value = None
 
         # Act
-        result = self.controller.execute({'course_id': self.TEST_COURSE.id})
+        result = self.controller.execute({'course_id': str(uuid.uuid4())})
 
         # Assert
         self.course_model.get_course_by_id.assert_called_once()
@@ -47,19 +42,12 @@ class TestGetCourseByIdController(unittest.TestCase):
 
     def testExecute_return200_whenCourseExist(self):
         # Arrange
-        expected_body = {
-            'id': self.TEST_COURSE.id,
-            'university_id': self.TEST_COURSE.university_id,
-            'name': self.TEST_COURSE.name,
-            'description': self.TEST_COURSE.description,
-            'professor_id': self.TEST_COURSE.professor_id,
-            'categories': [category.dump() for category in self.TEST_COURSE.categories],
-            'code': self.TEST_COURSE.code
-        }
-        self.course_model.get_course_by_id.return_value = self.TEST_COURSE
+        course = CourseControllersUtils.generate_courses(1)[0]
+        expected_body = CourseControllersUtils.generate_expected_body([course])[0]
+        self.course_model.get_course_by_id.return_value = course
 
         # Act
-        result = self.controller.execute({'course_id': self.TEST_COURSE.id})
+        result = self.controller.execute({'course_id': course.id})
 
         # Assert
         self.course_model.get_course_by_id.assert_called_once()
