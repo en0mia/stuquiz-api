@@ -51,7 +51,7 @@ class TestCourseRepository(unittest.TestCase):
 
     def testDeleteCourse_ReturnTrue_WhenCourseDeleted(self):
         # Arrange
-        expected_query = 'DELETE FROM course WHERE course_id = %s'
+        expected_query = 'DELETE FROM course WHERE id = %s'
         expected_arg = (self.TEST_COURSE.id,)
 
         # Act
