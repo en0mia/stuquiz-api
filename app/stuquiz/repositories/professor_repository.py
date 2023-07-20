@@ -39,3 +39,13 @@ class ProfessorRepository(AbstractRepository):
         query = "SELECT id, name FROM professor WHERE id = %s"
         result = self.select(query, (professor_id,))
         return Professor(*result[0]) if result and len(result) > 0 else None
+
+    def select_professors(self) -> list[Professor]:
+        """Returns all the professors.
+        TODO: Implement pagination.
+        :return: list[Professor]
+        """
+        query = "SELECT id, name FROM professor"
+        records = self.select(query, ())
+
+        return [Professor(*record) for record in records] if records else []

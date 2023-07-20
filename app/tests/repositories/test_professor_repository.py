@@ -91,4 +91,32 @@ class TestProfessorRepository(unittest.TestCase):
         self.cursor.execute.assert_called_once_with(expected_query, expected_args)
         self.assertIsNone(result)
 
+    def testSelectProfessors_ReturnProfessorList_WhenProfessorsExist(self):
+        # Arrange
+        professor1 = Professor(str(uuid.uuid4()), 'Professor 1')
+        professor2 = Professor(str(uuid.uuid4()), 'Professor 2')
+        expected_query = 'SELECT id, name FROM professor'
+        expected_args = ()
+        expected_result = [professor1, professor2]
+        self.cursor.fetchall.return_value = [(professor1.id, professor1.name), (professor2.id, professor2.name)]
 
+        # Act
+        result = self.repository.select_professors()
+
+        # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_args)
+        self.assertEqual(expected_result, result)
+
+    def testSelectProfessors_ReturnEmptyList_WhenProfessorsDontExist(self):
+        # Arrange
+        expected_query = 'SELECT id, name FROM professor'
+        expected_args = ()
+        expected_result = []
+        self.cursor.fetchall.return_value = []
+
+        # Act
+        result = self.repository.select_professors()
+
+        # Assert
+        self.cursor.execute.assert_called_once_with(expected_query, expected_args)
+        self.assertEqual(expected_result, result)
