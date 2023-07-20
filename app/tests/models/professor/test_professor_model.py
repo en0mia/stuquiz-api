@@ -4,6 +4,7 @@ import unittest
 import uuid
 from unittest.mock import MagicMock
 
+from app.stuquiz.entities.professor import Professor
 from app.stuquiz.models.professor.professor_model import ProfessorModel
 
 
@@ -45,3 +46,14 @@ class TestProfessorModel(unittest.TestCase):
 
         # Assert
         self.professor_repository.create_professor.assert_called_once()
+
+    def testUpdateProfessor_callRepository_whenCalled(self):
+        # Arrange
+        professor = Professor(str(uuid.uuid4()), 'Professor name')
+        self.professor_repository.update_professor.return_value = True
+
+        # Act
+        self.professor_model.update_professor(professor)
+
+        # Assert
+        self.professor_repository.update_professor.assert_called_once()

@@ -29,3 +29,9 @@ class ProfessorModel(object):
         """
         professor = Professor(str(uuid.uuid4()), professor_name)
         return self.professor_repository.create_professor(professor)
+
+    def update_professor(self, professor: Professor) -> bool:
+        """A proxy for ProfessorRepository.update_professor()
+        :return: bool.
+        """
+        return self.professor_repository.update_professor(professor)
