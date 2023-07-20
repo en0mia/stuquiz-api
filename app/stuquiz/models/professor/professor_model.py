@@ -15,3 +15,9 @@ class ProfessorModel(object):
         :return: A list of Professors.
         """
         return self.professor_repository.select_professors()
+
+    def get_professor_by_id(self, professor_id: str) -> Optional[Professor]:
+        """A proxy for ProfessorRepository.select_professor_by_id()
+        :return: Professor | None.
+        """
+        return self.professor_repository.select_professor_by_id(professor_id)

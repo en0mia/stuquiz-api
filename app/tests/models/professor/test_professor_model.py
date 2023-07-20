@@ -1,6 +1,7 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 20/07/23
 import unittest
+import uuid
 from unittest.mock import MagicMock
 
 from app.stuquiz.models.professor.professor_model import ProfessorModel
@@ -24,3 +25,13 @@ class TestProfessorModel(unittest.TestCase):
 
         # Assert
         self.professor_repository.select_professors.assert_called_once()
+
+    def testGetProfessorById_callRepository_whenCalled(self):
+        # Arrange
+        self.professor_repository.select_professor_by_id.return_value = []
+
+        # Act
+        self.professor_model.get_professor_by_id(str(uuid.uuid4()))
+
+        # Assert
+        self.professor_repository.select_professor_by_id.assert_called_once()
