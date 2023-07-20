@@ -41,3 +41,11 @@ class CourseModel(object):
         """
         course = Course(str(uuid.uuid4()), university_id, name, description, professor_id, code)
         return self.course_repository.create_course(course)
+
+    def update_course(self, course_id: str, university_id: str, name: str, description: str, professor_id: str,
+                      code: str) -> bool:
+        """A proxy for CourseRepository.update_course()
+        :return: bool
+        """
+        course = Course(course_id, university_id, name, description, professor_id, code)
+        return self.course_repository.update_course(course)
