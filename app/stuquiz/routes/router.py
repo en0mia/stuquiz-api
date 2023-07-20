@@ -3,6 +3,7 @@
 from app.stuquiz.routes.admin.login_admin import login_admin_page
 from app.stuquiz.routes.admin.logout_admin import logout_admin_page
 from app.stuquiz.routes.course.add_course import add_course_page
+from app.stuquiz.routes.course.delete_course import delete_course_page
 from app.stuquiz.routes.course.get_course_by_id import get_course_by_id_page
 from app.stuquiz.routes.course.get_courses import get_courses_page
 from app.stuquiz.routes.course.get_courses_by_category import get_courses_by_category_page
@@ -40,3 +41,4 @@ def register_routes(app) -> None:
     app.register_blueprint(get_courses_by_category_page)
     app.register_blueprint(add_course_page)
     app.register_blueprint(update_course_page)
+    app.register_blueprint(delete_course_page)

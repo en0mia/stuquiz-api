@@ -49,3 +49,9 @@ class CourseModel(object):
         """
         course = Course(course_id, university_id, name, description, professor_id, code)
         return self.course_repository.update_course(course)
+
+    def delete_course(self, course: Course) -> bool:
+        """A proxy for CourseRepository.delete_course()
+        :return: bool
+        """
+        return self.course_repository.delete_course(course)

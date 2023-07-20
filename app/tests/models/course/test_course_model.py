@@ -4,6 +4,7 @@ import unittest
 import uuid
 from unittest.mock import MagicMock
 
+from app.stuquiz.entities.course import Course
 from app.stuquiz.models.course.course_model import CourseModel
 
 
@@ -75,3 +76,14 @@ class TestCourseModel(unittest.TestCase):
 
         # Assert
         self.course_repository.update_course.assert_called_once()
+
+    def testDeleteCourse_callRepository_whenCalled(self):
+        # Arrange
+        self.course_repository.delete_course.return_value = True
+
+        # Act
+        self.model.delete_course(Course(str(uuid.uuid4()), str(uuid.uuid4()), 'name', 'description', str(uuid.uuid4()),
+                                        'code'))
+
+        # Assert
+        self.course_repository.delete_course.assert_called_once()
