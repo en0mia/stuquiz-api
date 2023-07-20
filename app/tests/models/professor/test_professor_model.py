@@ -35,3 +35,13 @@ class TestProfessorModel(unittest.TestCase):
 
         # Assert
         self.professor_repository.select_professor_by_id.assert_called_once()
+
+    def testAddProfessor_callRepository_whenCalled(self):
+        # Arrange
+        self.professor_repository.create_professor.return_value = True
+
+        # Act
+        self.professor_model.add_professor('Professor name')
+
+        # Assert
+        self.professor_repository.create_professor.assert_called_once()

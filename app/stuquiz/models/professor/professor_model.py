@@ -1,5 +1,6 @@
 # @author Simone Nicol <en0mia.dev@gmail.com>
 # @created 20/07/23
+import uuid
 from typing import Optional
 
 from app.stuquiz.entities.professor import Professor
@@ -21,3 +22,10 @@ class ProfessorModel(object):
         :return: Professor | None.
         """
         return self.professor_repository.select_professor_by_id(professor_id)
+
+    def add_professor(self, professor_name: str) -> bool:
+        """A proxy for ProfessorRepository.create_professor()
+        :return: bool.
+        """
+        professor = Professor(str(uuid.uuid4()), professor_name)
+        return self.professor_repository.create_professor(professor)
