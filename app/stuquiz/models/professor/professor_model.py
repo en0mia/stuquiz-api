@@ -35,3 +35,9 @@ class ProfessorModel(object):
         :return: bool.
         """
         return self.professor_repository.update_professor(professor)
+
+    def delete_professor(self, professor: Professor) -> bool:
+        """A proxy for ProfessorRepository.delete_professor()
+        :return: bool.
+        """
+        return self.professor_repository.delete_professor(professor)

@@ -57,3 +57,14 @@ class TestProfessorModel(unittest.TestCase):
 
         # Assert
         self.professor_repository.update_professor.assert_called_once()
+
+    def testDeleteProfessor_callRepository_whenCalled(self):
+        # Arrange
+        professor = Professor(str(uuid.uuid4()), 'Professor name')
+        self.professor_repository.delete_professor.return_value = True
+
+        # Act
+        self.professor_model.delete_professor(professor)
+
+        # Assert
+        self.professor_repository.delete_professor.assert_called_once()
