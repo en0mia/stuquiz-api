@@ -44,8 +44,8 @@ class TestGetUniversityCoursesController(unittest.TestCase):
     def testExecute_return200_whenUniversityExist(self):
         # Arrange
         first_course = Course(str(uuid.uuid4()), str(uuid.uuid4()), "Test course", "Test course description",
-                              "Test professor", "TEST123", [Category(str(uuid.uuid4()), "Test category")])
-        second_course = Course(str(uuid.uuid4()), first_course.university_id, "name", "description", "professor",
+                              str(uuid.uuid4()), "TEST123", [Category(str(uuid.uuid4()), "Test category")])
+        second_course = Course(str(uuid.uuid4()), first_course.university_id, "name", "description", str(uuid.uuid4()),
                                "code", [])
         expected_result = [first_course.dump(), second_course.dump()]
         self.university_model.get_university_by_id.return_value = University(str(uuid.uuid4()), 'Name')
