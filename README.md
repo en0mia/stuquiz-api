@@ -11,6 +11,14 @@
 | app/stuquiz/controllers/admin/\_\_init\_\_.py                                  |        0 |        0 |    100% |           |
 | app/stuquiz/controllers/admin/login\_admin\_controller.py                      |       18 |        0 |    100% |           |
 | app/stuquiz/controllers/admin/logout\_admin\_controller.py                     |       12 |        0 |    100% |           |
+| app/stuquiz/controllers/course/\_\_init\_\_.py                                 |        0 |        0 |    100% |           |
+| app/stuquiz/controllers/course/add\_course\_controller.py                      |       27 |        0 |    100% |           |
+| app/stuquiz/controllers/course/delete\_course\_controller.py                   |       22 |        0 |    100% |           |
+| app/stuquiz/controllers/course/get\_course\_by\_id\_controller.py              |       17 |        0 |    100% |           |
+| app/stuquiz/controllers/course/get\_courses\_by\_category\_controller.py       |       16 |        0 |    100% |           |
+| app/stuquiz/controllers/course/get\_courses\_by\_professor\_controller.py      |       16 |        0 |    100% |           |
+| app/stuquiz/controllers/course/get\_courses\_controller.py                     |       12 |        0 |    100% |           |
+| app/stuquiz/controllers/course/update\_course\_controller.py                   |       30 |        0 |    100% |           |
 | app/stuquiz/controllers/university/\_\_init\_\_.py                             |        0 |        0 |    100% |           |
 | app/stuquiz/controllers/university/add\_university\_controller.py              |       19 |        0 |    100% |           |
 | app/stuquiz/controllers/university/delete\_university\_controller.py           |       22 |        0 |    100% |           |
@@ -28,6 +36,8 @@
 | app/stuquiz/models/\_\_init\_\_.py                                             |        0 |        0 |    100% |           |
 | app/stuquiz/models/admin/\_\_init\_\_.py                                       |        0 |        0 |    100% |           |
 | app/stuquiz/models/admin/admin\_model.py                                       |       36 |        7 |     81% |37, 44, 78-85 |
+| app/stuquiz/models/course/\_\_init\_\_.py                                      |        0 |        0 |    100% |           |
+| app/stuquiz/models/course/course\_model.py                                     |       23 |        0 |    100% |           |
 | app/stuquiz/models/university/\_\_init\_\_.py                                  |        0 |        0 |    100% |           |
 | app/stuquiz/models/university/university\_model.py                             |       23 |        2 |     91% |     34-36 |
 | app/stuquiz/repositories/\_\_init\_\_.py                                       |        0 |        0 |    100% |           |
@@ -35,14 +45,22 @@
 | app/stuquiz/repositories/admin\_repository.py                                  |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/answer\_repository.py                                 |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/category\_repository.py                               |       16 |        0 |    100% |           |
-| app/stuquiz/repositories/course\_repository.py                                 |       31 |        0 |    100% |           |
+| app/stuquiz/repositories/course\_repository.py                                 |       53 |        0 |    100% |           |
 | app/stuquiz/repositories/question\_repository.py                               |       16 |        0 |    100% |           |
 | app/stuquiz/repositories/university\_repository.py                             |       21 |        0 |    100% |           |
 | app/stuquiz/routes/\_\_init\_\_.py                                             |        0 |        0 |    100% |           |
 | app/stuquiz/routes/admin/\_\_init\_\_.py                                       |        0 |        0 |    100% |           |
 | app/stuquiz/routes/admin/login\_admin.py                                       |        9 |        4 |     56% |     13-17 |
 | app/stuquiz/routes/admin/logout\_admin.py                                      |        6 |        1 |     83% |        13 |
-| app/stuquiz/routes/router.py                                                   |       17 |        8 |     53% |     19-28 |
+| app/stuquiz/routes/course/\_\_init\_\_.py                                      |        0 |        0 |    100% |           |
+| app/stuquiz/routes/course/add\_course.py                                       |       12 |        7 |     42% |     13-20 |
+| app/stuquiz/routes/course/delete\_course.py                                    |        6 |        1 |     83% |        13 |
+| app/stuquiz/routes/course/get\_course\_by\_id.py                               |        6 |        1 |     83% |        13 |
+| app/stuquiz/routes/course/get\_courses.py                                      |        6 |        1 |     83% |        13 |
+| app/stuquiz/routes/course/get\_courses\_by\_category.py                        |        6 |        1 |     83% |        13 |
+| app/stuquiz/routes/course/get\_courses\_by\_professor.py                       |        6 |        1 |     83% |        13 |
+| app/stuquiz/routes/course/update\_course.py                                    |       12 |        7 |     42% |     13-20 |
+| app/stuquiz/routes/router.py                                                   |       31 |       15 |     52% |     26-44 |
 | app/stuquiz/routes/university/\_\_init\_\_.py                                  |        0 |        0 |    100% |           |
 | app/stuquiz/routes/university/add\_university.py                               |        8 |        3 |     62% |     13-15 |
 | app/stuquiz/routes/university/delete\_university.py                            |        6 |        1 |     83% |        13 |
@@ -57,6 +75,15 @@
 | app/tests/controllers/admin/\_\_init\_\_.py                                    |        0 |        0 |    100% |           |
 | app/tests/controllers/admin/test\_login\_admin\_controller.py                  |       44 |        0 |    100% |           |
 | app/tests/controllers/admin/test\_logout\_admin\_controller.py                 |       25 |        0 |    100% |           |
+| app/tests/controllers/course/\_\_init\_\_.py                                   |        0 |        0 |    100% |           |
+| app/tests/controllers/course/course\_controllers\_utils.py                     |       10 |        0 |    100% |           |
+| app/tests/controllers/course/test\_add\_course\_controller.py                  |       62 |        0 |    100% |           |
+| app/tests/controllers/course/test\_delete\_course\_controller.py               |       53 |        0 |    100% |           |
+| app/tests/controllers/course/test\_get\_course\_by\_id\_controller.py          |       31 |        0 |    100% |           |
+| app/tests/controllers/course/test\_get\_courses\_by\_category\_controller.py   |       33 |        0 |    100% |           |
+| app/tests/controllers/course/test\_get\_courses\_by\_professor\_controller.py  |       34 |        0 |    100% |           |
+| app/tests/controllers/course/test\_get\_courses\_controller.py                 |       27 |        0 |    100% |           |
+| app/tests/controllers/course/test\_update\_course\_controller.py               |       78 |        0 |    100% |           |
 | app/tests/controllers/university/\_\_init\_\_.py                               |        0 |        0 |    100% |           |
 | app/tests/controllers/university/test\_add\_university\_controller.py          |       41 |        0 |    100% |           |
 | app/tests/controllers/university/test\_delete\_university\_controller.py       |       53 |        0 |    100% |           |
@@ -69,6 +96,8 @@
 | app/tests/models/\_\_init\_\_.py                                               |        0 |        0 |    100% |           |
 | app/tests/models/admin/\_\_init\_\_.py                                         |        0 |        0 |    100% |           |
 | app/tests/models/admin/test\_admin\_model.py                                   |       43 |        0 |    100% |           |
+| app/tests/models/course/\_\_init\_\_.py                                        |        0 |        0 |    100% |           |
+| app/tests/models/course/test\_course\_model.py                                 |       40 |        0 |    100% |           |
 | app/tests/models/university/\_\_init\_\_.py                                    |        0 |        0 |    100% |           |
 | app/tests/models/university/test\_university\_model.py                         |       32 |        0 |    100% |           |
 | app/tests/repositories/\_\_init\_\_.py                                         |        0 |        0 |    100% |           |
@@ -76,10 +105,10 @@
 | app/tests/repositories/test\_admin\_repository.py                              |       65 |        0 |    100% |           |
 | app/tests/repositories/test\_answer\_repository.py                             |       51 |        0 |    100% |           |
 | app/tests/repositories/test\_category\_repository.py                           |       56 |        0 |    100% |           |
-| app/tests/repositories/test\_course\_repository.py                             |       90 |        0 |    100% |           |
+| app/tests/repositories/test\_course\_repository.py                             |      142 |        0 |    100% |           |
 | app/tests/repositories/test\_question\_repository.py                           |       57 |        0 |    100% |           |
 | app/tests/repositories/test\_university\_repository.py                         |       77 |        0 |    100% |           |
-|                                                                      **TOTAL** | **1376** |   **64** | **95%** |           |
+|                                                                      **TOTAL** | **2049** |   **90** | **96%** |           |
 
 
 ## Setup coverage badge
