@@ -7,6 +7,13 @@ from app.stuquiz.routes.professor.delete_professor import delete_professor_page
 from app.stuquiz.routes.professor.get_professor_by_id import get_professor_by_id_page
 from app.stuquiz.routes.professor.get_professors import get_professors_page
 from app.stuquiz.routes.professor.update_professor import update_professor_page
+from app.stuquiz.routes.course.add_course import add_course_page
+from app.stuquiz.routes.course.delete_course import delete_course_page
+from app.stuquiz.routes.course.get_course_by_id import get_course_by_id_page
+from app.stuquiz.routes.course.get_courses import get_courses_page
+from app.stuquiz.routes.course.get_courses_by_category import get_courses_by_category_page
+from app.stuquiz.routes.course.get_courses_by_professor import get_courses_by_professor_page
+from app.stuquiz.routes.course.update_course import update_course_page
 from app.stuquiz.routes.university.add_university import add_university_page
 from app.stuquiz.routes.university.delete_university import delete_university_page
 from app.stuquiz.routes.university.get_universities import get_universities_page
@@ -38,3 +45,12 @@ def register_routes(app) -> None:
     app.register_blueprint(add_professor_page)
     app.register_blueprint(update_professor_page)
     app.register_blueprint(delete_professor_page)
+
+    # Course
+    app.register_blueprint(get_courses_page)
+    app.register_blueprint(get_course_by_id_page)
+    app.register_blueprint(get_courses_by_professor_page)
+    app.register_blueprint(get_courses_by_category_page)
+    app.register_blueprint(add_course_page)
+    app.register_blueprint(update_course_page)
+    app.register_blueprint(delete_course_page)

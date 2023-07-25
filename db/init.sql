@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS category (
 );
 
 CREATE TABLE IF NOT EXISTS professor (
-     id UUID PRIMARY KEY DEFAULT UUID(),
-     name TEXT NOT NULL
- );
+    id UUID PRIMARY KEY DEFAULT UUID(),
+    name TEXT NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS course (
   id UUID PRIMARY KEY DEFAULT UUID(),
@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS course (
           ON DELETE CASCADE
           ON UPDATE CASCADE,
   CONSTRAINT `fk_course_professor`
-       FOREIGN KEY (professor_id) REFERENCES professor(id)
-           ON DELETE CASCADE
-           ON UPDATE CASCADE
+      FOREIGN KEY (professor_id) REFERENCES professor(id)
+          ON DELETE CASCADE
+          ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS course_category (

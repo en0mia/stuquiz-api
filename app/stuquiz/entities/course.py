@@ -16,7 +16,7 @@ class Course(Entity):
     university_id: str
     name: str
     description: str
-    professor: str
+    professor_id: str
     code: str
     categories: Optional[list[Category]] = field(default_factory=list)
 
@@ -26,7 +26,7 @@ class Course(Entity):
             'university_id': self.university_id,
             'name': self.name,
             'description': self.description,
-            'professor': self.professor,
+            'professor_id': self.professor_id,
             'categories': [category.dump() for category in self.categories],
             'code': self.code
         }
