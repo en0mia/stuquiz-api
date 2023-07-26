@@ -12,10 +12,12 @@ from app.stuquiz.entities.university import University
 class TestGetUniversitiesController(unittest.TestCase):
     def setUp(self) -> None:
         self.university_model = MagicMock()
+        self.request = MagicMock()
         self.controller = GetUniversitiesController(self.university_model)
 
     def tearDown(self) -> None:
         self.university_model = None
+        self.request = None
         self.controller = None
 
     def testExecute_return200WithEmptyBody_whenUniversitiesDontExist(self):
@@ -24,7 +26,7 @@ class TestGetUniversitiesController(unittest.TestCase):
         self.university_model.get_universities.return_value = []
 
         # Act
-        result = self.controller.execute({})
+        result = self.controller.execute(self.request)
 
         # Assert
         self.university_model.get_universities.assert_called_once()
@@ -42,7 +44,7 @@ class TestGetUniversitiesController(unittest.TestCase):
         self.university_model.get_universities.return_value = [first_university, second_university]
 
         # Act
-        result = self.controller.execute({})
+        result = self.controller.execute(self.request)
 
         # Assert
         self.university_model.get_universities.assert_called_once()

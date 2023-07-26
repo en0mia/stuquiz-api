@@ -3,6 +3,7 @@
 import json
 import unittest
 import uuid
+from unittest import mock
 from unittest.mock import MagicMock
 
 from app.stuquiz.controllers.university.get_university_by_id_controller import GetUniversityByIdController
@@ -14,10 +15,14 @@ class TestGetUniversitiesController(unittest.TestCase):
 
     def setUp(self) -> None:
         self.university_model = MagicMock()
+        self.request = MagicMock()
+        self.args = mock.PropertyMock(return_value={'university_id': self.TEST_UNIVERSITY.id})
+        type(self.request).args = self.args
         self.controller = GetUniversityByIdController(self.university_model)
 
     def tearDown(self) -> None:
         self.university_model = None
+        self.request = None
         self.controller = None
 
     def testExecute_return404_whenUniversityDontExist(self):
@@ -25,9 +30,10 @@ class TestGetUniversitiesController(unittest.TestCase):
         self.university_model.get_university_by_id.return_value = []
 
         # Act
-        result = self.controller.execute({'university_id': str(uuid.uuid4())})
+        result = self.controller.execute(self.request)
 
         # Assert
+        self.args.assert_called_once()
         self.university_model.get_university_by_id.assert_called_once()
         self.assertEqual(404, result.status_code)
 
@@ -37,19 +43,10 @@ class TestGetUniversitiesController(unittest.TestCase):
         self.university_model.get_university_by_id.return_value = self.TEST_UNIVERSITY
 
         # Act
-        result = self.controller.execute({'university_id': self.TEST_UNIVERSITY.id})
+        result = self.controller.execute(self.request)
 
         # Assert
+        self.args.assert_called_once()
         self.university_model.get_university_by_id.assert_called_once()
         self.assertEqual(200, result.status_code)
         self.assertEqual(expected_body, json.loads(result.data))
-
-    def testExecute_return400_whenUniversityIdIsNotValid(self):
-        # Arrange
-
-        # Act
-        result = self.controller.execute({'university_id': None})
-
-        # Assert
-        self.university_model.get_university_by_id.assert_not_called()
-        self.assertEqual(400, result.status_code)

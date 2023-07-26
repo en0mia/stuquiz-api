@@ -2,33 +2,22 @@
 # @created 16/07/23
 from typing import Optional
 
-from flask import Response
-from validator_collection import checkers
+from easy_route.controllers.abstract_controller import AbstractController
+from flask import Response, Request
 
-from app.stuquiz.controllers.abstract_controller import AbstractController
-from app.stuquiz.models.admin.admin_model import AdminModel
 from app.stuquiz.models.university.university_model import UniversityModel
 
 
 class DeleteUniversityController(AbstractController):
-    def __init__(self, university_model: Optional[UniversityModel] = None,
-                 admin_model: Optional[AdminModel] = None):
+    def __init__(self, university_model: Optional[UniversityModel] = None):
         self.university_model = university_model or UniversityModel()
-        self.admin_model = admin_model or AdminModel()
 
-    def execute(self, data: dict) -> Response:
+    def execute(self, request: Request) -> Response:
         """
-        :param data: a dict containing the university id.
+        :param request:
         :return: HTTP Response
         """
-        if not self.admin_model.is_admin_logged_in():
-            return Response('', 401)
-
-        university_id = data['university_id'] if 'university_id' in data else None
-
-        if not checkers.is_uuid(university_id):
-            return Response('', 400)
-
+        university_id = request.args['university_id']
         university = self.university_model.get_university_by_id(university_id)
 
         if not university:
