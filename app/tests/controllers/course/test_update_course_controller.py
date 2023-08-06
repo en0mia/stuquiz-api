@@ -3,6 +3,7 @@
 import json
 import unittest
 import uuid
+from unittest import mock
 from unittest.mock import MagicMock
 
 from app.stuquiz.controllers.course.update_course_controller import UpdateCourseController
@@ -13,6 +14,7 @@ from app.tests.controllers.course.course_controllers_utils import CourseControll
 
 class TestUpdateCourseController(unittest.TestCase):
     TEST_UNIVERSITY = University(str(uuid.uuid4()), 'Name')
+    TEST_COURSE = CourseControllersUtils.generate_courses(1)[0]
 
     @staticmethod
     def course_to_dict(course: Course) -> dict:
@@ -32,109 +34,82 @@ class TestUpdateCourseController(unittest.TestCase):
         }
 
     def setUp(self) -> None:
+        self.request = MagicMock()
         self.course_model = MagicMock()
         self.admin_model = MagicMock()
         self.university_model = MagicMock()
-        self.controller = UpdateCourseController(self.course_model, self.admin_model, self.university_model)
+        self.controller = UpdateCourseController(self.course_model, self.university_model)
+        self.args = mock.PropertyMock(return_value={'course_id': str(uuid.uuid4())})
+        self.form = mock.PropertyMock(return_value=self.course_to_dict(self.TEST_COURSE))
+        type(self.request).args = self.args
+        type(self.request).form = self.form
 
     def tearDown(self) -> None:
+        self.request = None
         self.course_model = None
         self.admin_model = None
         self.university_model = None
         self.controller = None
-
-    def testExecute_return401_whenAdminNotLoggedIn(self):
-        # Arrange
-        course = CourseControllersUtils.generate_courses(1)
-        self.admin_model.is_admin_logged_in.return_value = False
-
-        # Act
-        result = self.controller.execute(course[0].dump())
-
-        # Assert
-        self.admin_model.is_admin_logged_in.assert_called_once()
-        self.course_model.update_course.assert_not_called()
-        self.assertEqual(401, result.status_code)
-
-    def testExecute_return400_whenInvalidParameters(self):
-        # Arrange
-        self.admin_model.is_admin_logged_in.return_value = True
-
-        # Act
-        result = self.controller.execute({
-            'university_id': 'invalid id',
-            'name': None,
-            'description': None,
-            'professor_id': 'invalid id',
-            'code': None
-        })
-
-        # Assert
-        self.admin_model.is_admin_logged_in.assert_called_once()
-        self.course_model.update_course.assert_not_called()
-        self.assertEqual(400, result.status_code)
+        self.args = None
+        self.form = None
 
     def testExecute_return404_whenCourseDontExist(self):
         # Arrange
-        course = CourseControllersUtils.generate_courses(1)
-        self.admin_model.is_admin_logged_in.return_value = True
         self.course_model.get_course_by_id.return_value = None
 
         # Act
-        result = self.controller.execute(self.course_to_dict(course[0]))
+        result = self.controller.execute(self.request)
 
         # Assert
-        self.admin_model.is_admin_logged_in.assert_called_once()
+        self.args.assert_called_once()
+        self.assertEqual(5, self.form.call_count)
         self.course_model.get_course_by_id.assert_called_once()
         self.course_model.update_course.assert_not_called()
         self.assertEqual(404, result.status_code)
 
     def testExecute_return400_whenUniversityDontExist(self):
         # Arrange
-        course = CourseControllersUtils.generate_courses(1)
-        self.admin_model.is_admin_logged_in.return_value = True
-        self.course_model.get_course_by_id.return_value = course[0]
+        self.course_model.get_course_by_id.return_value = self.TEST_COURSE
         self.university_model.get_university_by_id.return_value = None
 
         # Act
-        result = self.controller.execute(self.course_to_dict(course[0]))
+        result = self.controller.execute(self.request)
 
         # Assert
-        self.admin_model.is_admin_logged_in.assert_called_once()
+        self.args.assert_called_once()
+        self.assertEqual(5, self.form.call_count)
         self.university_model.get_university_by_id.assert_called_once()
         self.course_model.update_course.assert_not_called()
         self.assertEqual(400, result.status_code)
 
     def testExecute_return500_whenDbError(self):
         # Arrange
-        course = CourseControllersUtils.generate_courses(1)
-        self.admin_model.is_admin_logged_in.return_value = True
         self.course_model.update_course.return_value = False
-        self.course_model.get_course_by_id.return_value = course[0]
+        self.course_model.get_course_by_id.return_value = self.TEST_COURSE
         self.university_model.get_university_by_id.return_value = self.TEST_UNIVERSITY
 
         # Act
-        result = self.controller.execute(self.course_to_dict(course[0]))
+        result = self.controller.execute(self.request)
 
         # Assert
-        self.admin_model.is_admin_logged_in.assert_called_once()
+        self.args.assert_called_once()
+        self.assertEqual(5, self.form.call_count)
         self.university_model.get_university_by_id.assert_called_once()
         self.course_model.update_course.assert_called_once()
         self.assertEqual(500, result.status_code)
 
     def testExecute_return200WithEmptyBody_whenCourseHasBeenUpdated(self):
         # Arrange
-        course = CourseControllersUtils.generate_courses(1)
         expected_body = {}
         self.course_model.update_course.return_value = True
-        self.admin_model.is_admin_logged_in.return_value = True
         self.university_model.get_university_by_id.return_value = self.TEST_UNIVERSITY
 
         # Act
-        result = self.controller.execute(self.course_to_dict(course[0]))
+        result = self.controller.execute(self.request)
 
         # Assert
-        self.admin_model.is_admin_logged_in.assert_called_once()
+        self.args.assert_called_once()
+        self.assertEqual(5, self.form.call_count)
         self.course_model.update_course.assert_called_once()
         self.university_model.get_university_by_id.assert_called_once()
         self.assertEqual(200, result.status_code)
