@@ -10,10 +10,12 @@ from app.tests.controllers.course.course_controllers_utils import CourseControll
 
 class TestGetCoursesController(unittest.TestCase):
     def setUp(self) -> None:
+        self.request = MagicMock()
         self.course_model = MagicMock()
         self.controller = GetCoursesController(self.course_model)
 
     def tearDown(self) -> None:
+        self.request = None
         self.course_model = None
         self.controller = None
 
@@ -23,7 +25,7 @@ class TestGetCoursesController(unittest.TestCase):
         self.course_model.get_courses.return_value = []
 
         # Act
-        result = self.controller.execute({})
+        result = self.controller.execute(self.request)
 
         # Assert
         self.course_model.get_courses.assert_called_once()
@@ -37,7 +39,7 @@ class TestGetCoursesController(unittest.TestCase):
         self.course_model.get_courses.return_value = courses
 
         # Act
-        result = self.controller.execute({})
+        result = self.controller.execute(self.request)
 
         # Assert
         self.course_model.get_courses.assert_called_once()

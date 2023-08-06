@@ -3,9 +3,9 @@
 import json
 from typing import Optional
 
-from flask import Response
+from easy_route.controllers.abstract_controller import AbstractController
+from flask import Response, Request
 
-from app.stuquiz.controllers.abstract_controller import AbstractController
 from app.stuquiz.models.course.course_model import CourseModel
 
 
@@ -13,9 +13,9 @@ class GetCoursesController(AbstractController):
     def __init__(self, course_model: Optional[CourseModel] = None):
         self.course_model = course_model or CourseModel()
 
-    def execute(self, data: dict) -> Response:
+    def execute(self, request: Request) -> Response:
         """
-        :param data: an empty dict
+        :param request:
         :return: HTTP Response
         """
         courses = self.course_model.get_courses()

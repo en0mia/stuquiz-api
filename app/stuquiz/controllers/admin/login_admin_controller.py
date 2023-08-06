@@ -2,10 +2,9 @@
 # @created 05/07/23
 from typing import Optional
 
-from flask import Response
-from validator_collection import checkers
+from easy_route.controllers.abstract_controller import AbstractController
+from flask import Response, Request
 
-from app.stuquiz.controllers.abstract_controller import AbstractController
 from app.stuquiz.models.admin.admin_model import AdminModel
 
 
@@ -14,16 +13,13 @@ class LoginAdminController(AbstractController):
     def __init__(self, admin_model: Optional[AdminModel] = None):
         self.admin_model = admin_model or AdminModel()
 
-    def execute(self, data: dict) -> Response:
+    def execute(self, request: Request) -> Response:
         """
-        :param data: a dict containing email and clear text password for the admin.
+        :param request:
         :return: HTTP Response.
         """
-        email = data['email']
-        clear_password = data['password']
-
-        if not checkers.is_email(email) or not clear_password:
-            return Response('', 400)
+        email = request.form['email']
+        clear_password = request.form['password']
 
         admin_id = self.admin_model.login_admin(email, clear_password)
 

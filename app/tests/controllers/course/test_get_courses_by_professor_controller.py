@@ -2,6 +2,7 @@
 # @created 19/07/23
 import unittest
 import uuid
+from unittest import mock
 from unittest.mock import MagicMock
 
 from flask import json
@@ -12,23 +13,17 @@ from app.tests.controllers.course.course_controllers_utils import CourseControll
 
 class TestGetCoursesByProfessorController(unittest.TestCase):
     def setUp(self) -> None:
+        self.request = MagicMock()
         self.course_model = MagicMock()
         self.controller = GetCoursesByProfessorController(self.course_model)
+        self.args = mock.PropertyMock(return_value={'professor_id': str(uuid.uuid4())})
+        type(self.request).args = self.args
 
     def tearDown(self) -> None:
+        self.request = None
         self.course_model = None
         self.controller = None
-
-    def testExecute_return400_whenInvalidProfessorId(self):
-        # Arrange
-        self.course_model.get_courses_by_professor.return_value = None
-
-        # Act
-        result = self.controller.execute({'professor_id': 'invalid id'})
-
-        # Assert
-        self.course_model.get_courses_by_professor.assert_not_called()
-        self.assertEqual(400, result.status_code)
+        self.args = None
 
     def testExecute_return200_whenCoursesExist(self):
         # Arrange
@@ -37,9 +32,10 @@ class TestGetCoursesByProfessorController(unittest.TestCase):
         self.course_model.get_courses_by_professor.return_value = courses
 
         # Act
-        result = self.controller.execute({'professor_id': str(uuid.uuid4())})
+        result = self.controller.execute(self.request)
 
         # Assert
+        self.args.assert_called_once()
         self.course_model.get_courses_by_professor.assert_called_once()
         self.assertEqual(200, result.status_code)
         self.assertEqual(expected_body, json.loads(result.data))
@@ -51,9 +47,10 @@ class TestGetCoursesByProfessorController(unittest.TestCase):
         self.course_model.get_courses_by_professor.return_value = []
 
         # Act
-        result = self.controller.execute({'professor_id': course.professor_id})
+        result = self.controller.execute(self.request)
 
         # Assert
+        self.args.assert_called_once()
         self.course_model.get_courses_by_professor.assert_called_once()
         self.assertEqual(200, result.status_code)
         self.assertEqual(expected_body, json.loads(result.data))
