@@ -22,7 +22,7 @@ class CategoryRepository(AbstractRepository):
 
     def select_category_by_id(self, category_id: str) -> Optional[Category]:
         query = "SELECT id, name FROM category WHERE id = %s"
-        result = self.select(query, category_id)
+        result = self.select(query, (category_id, ))
         return Category(*result[0]) if result and len(result) > 0 else None
 
     def select_categories(self) -> list[Category]:

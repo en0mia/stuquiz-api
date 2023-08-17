@@ -9,3 +9,4 @@ Werkzeug==2.3.4
 toml==0.10.2
 mysql-connector-python==8.0.33
 validator-collection==1.5.0
+easy-route==0.0.2

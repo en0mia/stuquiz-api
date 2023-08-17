@@ -1,6 +1,6 @@
 services:
   db:
-    image: mariadb
+    image: mariadb:10.11.4
     command: '--default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql'
     restart: always
     healthcheck:
